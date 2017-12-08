@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Herotale", "Hero's Tale\Herotale.csproj", "{55753B88-29C7-47FC-8CDB-2283C373F19C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerotaleTestProject", "HerotaleTestProject\HerotaleTestProject.csproj", "{3D70BDAD-435B-4727-98A1-A902F1338890}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55753B88-29C7-47FC-8CDB-2283C373F19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55753B88-29C7-47FC-8CDB-2283C373F19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55753B88-29C7-47FC-8CDB-2283C373F19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55753B88-29C7-47FC-8CDB-2283C373F19C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D70BDAD-435B-4727-98A1-A902F1338890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D70BDAD-435B-4727-98A1-A902F1338890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D70BDAD-435B-4727-98A1-A902F1338890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D70BDAD-435B-4727-98A1-A902F1338890}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B85E350-5D86-4862-9EC4-94268752248C}
+	EndGlobalSection
+EndGlobal
