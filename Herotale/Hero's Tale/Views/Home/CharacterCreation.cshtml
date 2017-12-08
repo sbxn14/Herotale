@@ -1,0 +1,100 @@
+﻿@using System.Web.UI.WebControls
+@using Herotale.Controllers
+@model Herotale.Models.Character
+
+@{
+    List<SelectListItem> ListClasses = new List<SelectListItem>();
+    ListClasses.Add(new SelectListItem
+    {
+        Text = "Beserker",
+        Value = "2",
+        Selected = true
+
+    });
+    ListClasses.Add(new SelectListItem
+    {
+        Text = "Paladin",
+        Value = "3"
+    });
+    ListClasses.Add(new SelectListItem
+    {
+        Text = "Thief",
+        Value = "1"
+    });
+
+    List<SelectListItem> ListRaces = new List<SelectListItem>();
+    ListRaces.Add(new SelectListItem
+    {
+        Text = "Human",
+        Value = "1",
+        Selected = true
+    });
+    ListRaces.Add(new SelectListItem
+    {
+        Text = "Dwarf",
+        Value = "2"
+    });
+    ListRaces.Add(new SelectListItem
+    {
+        Text = "Elf",
+        Value = "3"
+    });
+
+    List<SelectListItem> ListGenders = new List<SelectListItem>();
+    ListGenders.Add(new SelectListItem
+    {
+        Text = "Male",
+        Value = "Male",
+        Selected = true
+    });
+    ListGenders.Add(new SelectListItem
+    {
+        Text = "Female",
+        Value = "Female"
+    });
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CharacterCreation</title>
+    @Styles.Render("~/Content/LoginRegister.css")
+    <div class="buttons">
+        <a href="" class="reset">Reset</a>        
+        <a href="/Home/Logout" class="logout">Logout</a>
+    </div>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="center">
+            <h1 style="font-size: 25px;">Character Creation</h1>
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "label" })
+            <br />
+            @Html.TextBoxFor(model => model.Name, new { @class = "regbox", autocomplete = "off" })
+            <br />
+            <br />
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "label" })
+            <br />
+            @Html.DropDownListFor(model => model.Gender, ListGenders, new { @class = "regbox" })
+            <br />
+            <br />
+            @Html.LabelFor(model => model.RaceId, htmlAttributes: new { @class = "label" })
+            <br />
+            @Html.DropDownListFor(model => model.RaceId, ListRaces, new { @class = "regbox" })
+            <br />
+            <br />
+            @Html.LabelFor(model => model.ClassId, htmlAttributes: new { @class = "label" })
+            <br />
+            @Html.DropDownListFor(model => model.ClassId, ListClasses, new { @class = "regbox" })
+            <br />
+            <br />
+            <input type="submit" value="Confirm" class="confirm" />
+        </div>
+    }
+</body>
+</html>

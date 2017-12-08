@@ -1,0 +1,36 @@
+﻿@model Herotale.Models.Account
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herotale</title>
+    @Styles.Render("~/Content/LoginRegister.css")
+    <div class="buttons">
+        <a href="/Account/Register" class="reset">Register</a>
+        <a href="/Account/Login" class="logout">Login</a>
+    </div>
+</head>
+<body>  
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <h1 class="error">@ViewBag.Message</h1>
+        <div class="center">
+            <h1>Login</h1>
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "label" })
+            <br /> 
+            @Html.TextBoxFor(model => model.Email, new { @class = "regbox", autocomplete = "off", autofocus = "autofocus" })
+            <br /> 
+            <br />            
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "label" })
+            <br />          
+            @Html.TextBoxFor(model => model.Password, new { @class = "regbox", type = "password", autocomplete = "off"})
+            <br />
+            <br />            
+            <input type="submit" value="Confirm" class="confirm" />
+        </div>
+    }
+</body>
+</html>

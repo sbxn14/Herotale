@@ -1,0 +1,118 @@
+﻿@font-face {
+    font-family: 'fixedsys_excelsior_3.01Rg';
+    src: url('/fonts/fsex300-webfont.woff2') format('woff2'), url('/fonts/fsex300-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background: #262626;
+    font-family: 'fixedsys_excelsior_3.01Rg';
+    color: #ffff23;
+    font-size: 20px;
+    text-decoration: none;
+    position: relative;
+}
+
+h1, h2, h3, h4 { font-weight: lighter; }
+
+.label {
+    font-family: 'fixedsys_excelsior_3.01Rg';
+    font-weight: lighter;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.buttons {
+    position: relative;
+    float: right;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.reset {
+    background: #262626;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px solid #ffff23;
+}
+
+.confirm {
+    font-size: 20px;
+    background: #262626;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    border: 2px solid #ffff23;
+    color: #ffff23;
+    font-family: 'fixedsys_excelsior_3.01Rg';
+}
+
+.confirm:hover {
+    font-family: 'fixedsys_excelsior_3.01Rg';
+    color: #ffaa23;
+    text-decoration: none;
+    border: 2px solid #ffaa23;
+}
+
+.logout {
+    background: #262626;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px solid #ffff23;
+}
+
+a, a:active, a:link, a:visited {
+    color: #ffff23;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffaa23;
+    text-decoration: none;
+    border: 2px solid #ffaa23;
+}
+
+.regbox {
+    background: #262626;
+    font-size: 20px;
+    outline: none;
+    font-family: 'fixedsys_excelsior_3.01Rg';
+    border: 2px #ffff23 solid;
+    color: #ffff23;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.border {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.regbox:active, .regbox:focus { border: 2px #ffaa23 solid; }
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 18%;
+}
+
+.error {
+    color: red;
+    font-family: 'fixedsys_excelsior_3.01Rg';
+    font-size: 21px;
+    position: absolute;
+    z-index: -1;
+    float: top;
+    padding-top: 0;
+    margin-top: 0;
+}
+
