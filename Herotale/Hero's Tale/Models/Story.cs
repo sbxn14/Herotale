@@ -15,8 +15,11 @@ namespace Herotale.Models
 		public int Id { get; set; }
 		public string Title { get; set; }
 		public string Text { get; set; }
+<<<<<<< HEAD
 		public int Choice1 { get; set; }
 		public int Choice2 { get; set; }
+=======
+>>>>>>> master
 		public string Query { get; set; }
 
 		public Segment()
@@ -29,8 +32,11 @@ namespace Herotale.Models
 			Title = reader.GetString(reader.GetOrdinal("Title"));
 			Text = reader.GetString(reader.GetOrdinal("Text"));
 			Id = reader.GetInt32(reader.GetOrdinal("Id"));
+<<<<<<< HEAD
 			Choice1 = reader.GetInt32(reader.GetOrdinal("Choice 1"));
 			Choice2 = reader.GetInt32(reader.GetOrdinal("Choice 2"));
+=======
+>>>>>>> master
 		}
 	}
 }

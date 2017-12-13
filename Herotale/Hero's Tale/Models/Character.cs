@@ -61,6 +61,10 @@ namespace Herotale.Models
             Slot2Id = reader.GetInt32(reader.GetOrdinal("Slot2Id"));
             Slot3Id = reader.GetInt32(reader.GetOrdinal("Slot3Id"));
             CpId = reader.GetInt32(reader.GetOrdinal("CheckpointId"));
+<<<<<<< HEAD
+=======
+            IsNew = reader.GetBoolean(reader.GetOrdinal("New"));
+>>>>>>> master
 
             Rc = Datamanager.RaceList.FirstOrDefault(x => x.Id == RaceId);
             Cl = Datamanager.ClassList.FirstOrDefault(x => x.Id == ClassId);

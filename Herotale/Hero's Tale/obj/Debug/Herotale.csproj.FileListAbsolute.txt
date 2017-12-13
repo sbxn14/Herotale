@@ -44,6 +44,7 @@ D:\VS files\Hero's Tale\Hero's Tale\bin\System.Diagnostics.DiagnosticSource.dll
 D:\VS files\Hero's Tale\Hero's Tale\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 D:\VS files\Hero's Tale\Hero's Tale\bin\System.Diagnostics.DiagnosticSource.xml
 D:\VS files\Hero's Tale\Hero's Tale\obj\Debug\Herotale.csprojResolveAssemblyReference.cache
+<<<<<<< HEAD
 D:\Bonline Repo\Herotale\Herotale\Herotale\Hero's Tale\obj\Debug\Herotale.csprojResolveAssemblyReference.cache
 D:\Bonline Repo\Herotale\Herotale\Herotale\Hero's Tale\obj\Debug\Herotale.csproj.CoreCompileInputs.cache
 D:\Bonline Repo\Herotale\Herotale\Herotale\Hero's Tale\obj\Debug\Herotale.dll
@@ -90,3 +91,5 @@ D:\Bonline Repo\Herotale\Herotale\Herotale\Hero's Tale\bin\System.Web.Razor.xml
 D:\Bonline Repo\Herotale\Herotale\Herotale\Hero's Tale\bin\System.Web.WebPages.xml
 D:\Bonline Repo\Herotale\Herotale\Herotale\Hero's Tale\bin\System.Web.WebPages.Deployment.xml
 D:\Bonline Repo\Herotale\Herotale\Herotale\Hero's Tale\bin\System.Web.WebPages.Razor.xml
+=======
+>>>>>>> master

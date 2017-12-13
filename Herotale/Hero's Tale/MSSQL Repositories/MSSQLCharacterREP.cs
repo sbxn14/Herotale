@@ -76,6 +76,10 @@ namespace Herotale.MSSQL_Repositories
 					c.CpId = reader.GetInt32(reader.GetOrdinal("CheckpointId"));
 					c.InvenId = reader.GetInt32(reader.GetOrdinal("InventoryId"));
 					c.AccId = acc.Id;
+<<<<<<< HEAD
+=======
+					c.IsNew = reader.GetBoolean(reader.GetOrdinal("New"));
+>>>>>>> master
 
 					Datamanager.Init();
 
@@ -122,7 +126,11 @@ namespace Herotale.MSSQL_Repositories
 
 		public bool Update(Character Char)
 		{
+<<<<<<< HEAD
 			string query = "UPDATE dbo.Characters SET AttackPower = @AP, Defense = @DEF, Speed = @SPD, Slot1Id = @Slot1Id, Slot2Id = @Slot2Id, Slot3Id = @Slot3Id, CheckpointId = @CPID WHERE Id=@Id";
+=======
+			string query = "UPDATE dbo.Characters SET AttackPower = @AP, Defense = @DEF, Speed = @SPD, Slot1Id = @Slot1Id, Slot2Id = @Slot2Id, Slot3Id = @Slot3Id, CheckpointId = @CPID, New = @New WHERE Id=@Id";
+>>>>>>> master
 			SqlCommand cmd = new SqlCommand(query);
 
 			cmd.Parameters.AddWithValue("@AP", Char.AttackPower);
@@ -132,6 +140,10 @@ namespace Herotale.MSSQL_Repositories
 			cmd.Parameters.AddWithValue("@Slot2Id", Char.Slot2Id);
 			cmd.Parameters.AddWithValue("@Slot3Id", Char.Slot3Id);
 			cmd.Parameters.AddWithValue("@CPID", Char.CpId);
+<<<<<<< HEAD
+=======
+			cmd.Parameters.AddWithValue("@New", Char.IsNew);
+>>>>>>> master
 			cmd.Parameters.AddWithValue("@Id", Char.Id);
 
 			return DB.RunNonQuery(cmd);

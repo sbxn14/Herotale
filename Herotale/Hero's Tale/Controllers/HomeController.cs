@@ -1,13 +1,24 @@
+<<<<<<< HEAD
 ﻿using Herotale.Contexts;
 using Herotale.Models;
 using Herotale.MSSQL_Repositories;
 using Herotale.ViewModels;
+=======
+﻿using System;
+using Herotale.Contexts;
+using Herotale.Models;
+using Herotale.MSSQL_Repositories;
+>>>>>>> master
 using System.Web.Mvc;
 using System.Web.Security;
 
 namespace Herotale.Controllers
 {
+<<<<<<< HEAD
 	[Authorize]
+=======
+    [Authorize]
+>>>>>>> master
     public class HomeController : Controller
     {
         private CharacterContext CharCon = new CharacterContext(new MssqlCharacterRep());
@@ -29,6 +40,7 @@ namespace Herotale.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
+<<<<<<< HEAD
         public ActionResult Index(StoryViewModel mod)
         {
             if (mod.Inp != null)
@@ -36,13 +48,26 @@ namespace Herotale.Controllers
 				Input command = new Input
 				{
 					Message = mod.Inp.Message,
+=======
+        public ActionResult Index(Input cmd)
+        {
+            if (cmd != null)
+            {
+                Input command = new Input
+                {
+                    Message = cmd.Message,
+>>>>>>> master
                     Char = Session["Character"] as Character
                 };
 
                 Chaa = command.Char;
 
                 Logic log = new Logic();
+<<<<<<< HEAD
 				StoryViewModel str = log.Hub(command);
+=======
+				Story str = log.Hub(command);
+>>>>>>> master
 
                 ModelState.Clear();
 
