@@ -11,6 +11,7 @@ namespace Herotale.IRepositories
         bool LoginChecker(Account acc);
         bool CheckAdmin(Account acc);
         string IdGetter(Account acc);
+		Account Get(int id);
 
     }
 }

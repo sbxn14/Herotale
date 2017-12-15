@@ -5,6 +5,7 @@ namespace Herotale.IRepositories
 {
     public interface IItemRepository : IRepository<Item>
     {
-        Item Get();
+        Item Get(int id);
+		Item GetEmptyItem();
     }
 }

@@ -25,5 +25,10 @@ namespace Herotale.Contexts
         {
             return Rep.Insert(inven);
         }
+
+		public List<Inventory> GetAll()
+		{
+			return Rep.GetAll();
+		}
     }
 }

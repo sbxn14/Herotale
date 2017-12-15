@@ -28,5 +28,13 @@ namespace Herotale.Contexts
         {
             return Rep.IdGetter(acc);
         }
+		public Account GetById(int id)
+		{
+			return Rep.Get(id);
+		}
+		public List<Account> GetAll()
+		{
+			return Rep.GetAll();
+		}
     }
 }

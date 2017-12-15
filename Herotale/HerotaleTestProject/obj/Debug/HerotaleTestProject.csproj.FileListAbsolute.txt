@@ -28,3 +28,33 @@ D:\VS files\Hero's Tale\HerotaleTestProject\obj\Debug\HerotaleTestProject.csproj
 D:\VS files\Hero's Tale\HerotaleTestProject\obj\Debug\HerotaleTestProject.csproj.CoreCompileInputs.cache
 D:\VS files\Hero's Tale\HerotaleTestProject\obj\Debug\HerotaleTestProject.dll
 D:\VS files\Hero's Tale\HerotaleTestProject\obj\Debug\HerotaleTestProject.pdb
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\ApplicationInsights.config
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\HerotaleTestProject.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\HerotaleTestProject.pdb
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Herotale.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.Optimization.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.Mvc.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.WebPages.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.Razor.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.WebPages.Razor.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Herotale.pdb
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Herotale.dll.config
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.Optimization.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.Mvc.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.WebPages.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.Razor.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.WebPages.Razor.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\bin\Debug\System.Web.WebPages.Deployment.xml
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\obj\Debug\HerotaleTestProject.csprojResolveAssemblyReference.cache
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\obj\Debug\HerotaleTestProject.csproj.CoreCompileInputs.cache
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\obj\Debug\HerotaleTestProject.dll
+D:\Bonline Repo\Herotale\Herotale\Herotale\HerotaleTestProject\obj\Debug\HerotaleTestProject.pdb

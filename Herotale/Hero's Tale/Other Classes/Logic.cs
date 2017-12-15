@@ -5,6 +5,9 @@ using Herotale.Models.Enums;
 using Herotale.MSSQL_Repositories;
 using Herotale.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Herotale
@@ -27,11 +30,7 @@ namespace Herotale
 				OldProgress = progress;
 			}
 
-			Story Str = new Story
-			{
-				Sgt = Datamanager.SegmentList[(progress - 1)],
-				Char = Inp.Char
-			};
+			Story Str = GetAllStories(Inp.Char)[(progress - 1)];
 
 			int CmNr = CommandHandler(Inp);
 
@@ -126,8 +125,8 @@ namespace Herotale
 			}
 
 
-			Str.Sgt = Datamanager.SegmentList[(progress - 1)];
-			if(Str.Sgt.Text.Contains("{"))
+			Str.Sgt = GetAllStories(Inp.Char)[(progress - 1)].Sgt;
+			if (Str.Sgt.Text.Contains("{"))
 			{
 				Str = Edit(Str);
 			}
@@ -267,6 +266,50 @@ namespace Herotale
 			}
 
 			return result;
+		}
+
+		public List<Story> GetAllStories(CharacterViewModel Chara)
+		{
+			SqlDataReader reader = null;
+
+			List<Story> result = new List<Story>();
+			string query = "Select * from dbo.Stories";
+
+			using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString))
+			{
+				using (SqlCommand cmd = con.CreateCommand())
+				{
+					cmd.CommandText = query;
+					try
+					{
+						cmd.Connection.Open();
+						cmd.Prepare();
+						reader = cmd.ExecuteReader();
+
+						while (reader.Read())
+						{
+							Story obj = new Story();
+							obj.Char = Chara;
+							obj.Sgt.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+							obj.Sgt.Title = reader.GetString(reader.GetOrdinal("Title"));
+							obj.Sgt.Text = reader.GetString(reader.GetOrdinal("Text"));
+							obj.Sgt.Choice1 = reader.GetInt32(reader.GetOrdinal("Choice 1"));
+							obj.Sgt.Choice2 = reader.GetInt32(reader.GetOrdinal("Choice 2"));
+							result.Add(obj);
+						}
+					}
+					catch (SqlException e)
+					{
+						throw e;
+					}
+					finally
+					{
+						cmd.Connection.Close();
+						reader?.Close();
+					}
+					return result;
+				}
+			}
 		}
 	}
 }
