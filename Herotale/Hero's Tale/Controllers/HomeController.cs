@@ -20,7 +20,11 @@ namespace Herotale.Controllers
 
 			Input inp = new Input
 			{
+<<<<<<< HEAD
 				Char = Session["Character"] as Character
+=======
+				Char = Session["Character"] as CharacterViewModel
+>>>>>>> master
 			};
 
 			ModelState.Clear();
@@ -36,7 +40,11 @@ namespace Herotale.Controllers
 				Input command = new Input
 				{
 					Message = mod.Inp.Message,
+<<<<<<< HEAD
 					Char = Session["Character"] as Character
+=======
+					Char = Session["Character"] as CharacterViewModel
+>>>>>>> master
 				};
 				
 				Logic log = new Logic();

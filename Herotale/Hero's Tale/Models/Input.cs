@@ -9,6 +9,6 @@ namespace Herotale.Models
     public class Input
     {
         public string Message { get; set; }
-        public Character Char { get; set; }
+        public CharacterViewModel Char { get; set; }
     }
 }

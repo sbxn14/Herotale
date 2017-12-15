@@ -28,7 +28,11 @@ namespace Herotale.MSSQL_Repositories
 			Item r = new Item();
 			SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
 			conn.Open();
+<<<<<<< HEAD
 			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Items WHERE Id=@id", conn);
+=======
+			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Item WHERE Id=@id", conn);
+>>>>>>> master
 			cmd.Parameters.AddWithValue("@id", id);
 			reader = cmd.ExecuteReader();
 

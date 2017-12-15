@@ -62,6 +62,7 @@ namespace Herotale.Models
 			Slot2 = slot2;
 			Slot3 = slot3;
 		}
+<<<<<<< HEAD
 
 		public Character()
 		{
@@ -69,5 +70,12 @@ namespace Herotale.Models
 		}
 
 
+=======
+
+		public Character()
+		{
+
+		}
+>>>>>>> master
     }
 }

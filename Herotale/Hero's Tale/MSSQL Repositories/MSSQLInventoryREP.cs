@@ -32,8 +32,11 @@ namespace Herotale.MSSQL_Repositories
 		{
 			SqlDataReader reader = null;
 			Inventory i = new Inventory();
+<<<<<<< HEAD
 			i.Slots = new List<int>();
 			i.Items = new List<Item>();
+=======
+>>>>>>> master
 			SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
 			conn.Open();
 			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Inventory WHERE Id=@id", conn);
@@ -45,6 +48,7 @@ namespace Herotale.MSSQL_Repositories
 				while (reader.Read())
 				{
 					i.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+<<<<<<< HEAD
 					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item1id")));
 					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item2id")));
 					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item3id")));
@@ -66,6 +70,29 @@ namespace Herotale.MSSQL_Repositories
 					i.Items.Add(ItemCon.GetById(i.Slots[7]));
 					i.Items.Add(ItemCon.GetById(i.Slots[8]));
 					i.Items.Add(ItemCon.GetById(i.Slots[9]));
+=======
+					i.Slots[0] = reader.GetInt32(reader.GetOrdinal("item1id"));
+					i.Slots[1] = reader.GetInt32(reader.GetOrdinal("item2id"));
+					i.Slots[2] = reader.GetInt32(reader.GetOrdinal("item3id"));
+					i.Slots[3] = reader.GetInt32(reader.GetOrdinal("item4id"));
+					i.Slots[4] = reader.GetInt32(reader.GetOrdinal("item5id"));
+					i.Slots[5] = reader.GetInt32(reader.GetOrdinal("item6id"));
+					i.Slots[6] = reader.GetInt32(reader.GetOrdinal("item7id"));
+					i.Slots[7] = reader.GetInt32(reader.GetOrdinal("item8id"));
+					i.Slots[8] = reader.GetInt32(reader.GetOrdinal("item9id"));
+					i.Slots[9] = reader.GetInt32(reader.GetOrdinal("item10id"));
+
+					i.Items[0] = ItemCon.GetById(i.Slots[0]);
+					i.Items[1] = ItemCon.GetById(i.Slots[1]);
+					i.Items[2] = ItemCon.GetById(i.Slots[2]);
+					i.Items[3] = ItemCon.GetById(i.Slots[3]);
+					i.Items[4] = ItemCon.GetById(i.Slots[4]);
+					i.Items[5] = ItemCon.GetById(i.Slots[5]);
+					i.Items[6] = ItemCon.GetById(i.Slots[6]);
+					i.Items[7] = ItemCon.GetById(i.Slots[7]);
+					i.Items[8] = ItemCon.GetById(i.Slots[8]);
+					i.Items[9] = ItemCon.GetById(i.Slots[9]);
+>>>>>>> master
 
 					conn.Close();
 					conn.Dispose();
