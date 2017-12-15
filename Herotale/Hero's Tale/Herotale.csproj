@@ -152,15 +152,15 @@
     <Compile Include="Contexts\ItemContext.cs" />
     <Compile Include="Contexts\RaceContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Controllers\HomeController.cs" />
-=======
+
     <Compile Include="Controllers\CharacterController.cs" />
     <Compile Include="Controllers\EnemyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\StoryController.cs" />
->>>>>>> master
+
     <Compile Include="Database\DB.cs" />
     <Compile Include="Database\Datamanager.cs" />
     <Compile Include="Database\IQuery.cs" />
@@ -175,11 +175,11 @@
     <Compile Include="IRepositories\IItemRepository.cs" />
     <Compile Include="IRepositories\IRaceRepository.cs" />
     <Compile Include="IRepositories\IRepository.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Other Classes\Logic.cs" />
-=======
+
     <Compile Include="Logic.cs" />
->>>>>>> master
+
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\Checkpoint.cs" />
@@ -190,17 +190,17 @@
     <Compile Include="Models\Input.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\Item.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Other Classes\PasswordMan.cs" />
     <Compile Include="Models\Race.cs" />
     <Compile Include="Models\Story.cs" />
     <Compile Include="Other Classes\TicketAuth.cs" />
-=======
+
     <Compile Include="Models\PasswordMan.cs" />
     <Compile Include="Models\Race.cs" />
     <Compile Include="Models\Story.cs" />
     <Compile Include="Models\TicketAuth.cs" />
->>>>>>> master
+
     <Compile Include="MSSQL Repositories\MSSQLAccountREP.cs" />
     <Compile Include="MSSQL Repositories\MSSQLCharacterREP.cs" />
     <Compile Include="MSSQL Repositories\MSSQLClassREP.cs" />
