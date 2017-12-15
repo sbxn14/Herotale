@@ -5,7 +5,7 @@ namespace Herotale.Models
 	public class Story
 	{
 		public Segment Sgt = new Segment();
-		public CharacterViewModel Char = new CharacterViewModel();   //has checkpoint
+		public Character Char = new Character();   //has checkpoint
 	}
 
 	public class Segment 

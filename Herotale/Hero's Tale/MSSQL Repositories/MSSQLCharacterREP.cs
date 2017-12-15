@@ -145,9 +145,8 @@ namespace Herotale.MSSQL_Repositories
 			return false;
 		}
 
-		public bool Update(CharacterViewModel Char)
+		public bool Update(Character Char)
 		{
-
 			string query = "UPDATE dbo.Characters SET AttackPower = @AP, Defense = @DEF, Speed = @SPD, Slot1Id = @Slot1Id, Slot2Id = @Slot2Id, Slot3Id = @Slot3Id, CheckpointId = @CPID WHERE Id=@Id";
 
 			SqlCommand cmd = new SqlCommand(query);
@@ -250,10 +249,9 @@ namespace Herotale.MSSQL_Repositories
 			return Chaa;
 		}
 
-		public bool Remove(CharacterViewModel Chaa)
+		public bool Insert(Character obj)
 		{
 			throw new NotImplementedException();
 		}
 	}
-
 }

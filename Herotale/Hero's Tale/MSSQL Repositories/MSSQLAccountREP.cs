@@ -140,7 +140,9 @@ namespace Herotale.MSSQL_Repositories
 			Account r = new Account();
 			SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
 			conn.Open();
+
 			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Accounts WHERE Id=@id", conn);
+
 			cmd.Parameters.AddWithValue("@id", id);
 			reader = cmd.ExecuteReader();
 

@@ -18,7 +18,9 @@ namespace Herotale.MSSQL_Repositories
 			Checkpoint r = new Checkpoint();
 			SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
 			conn.Open();
+
 			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Checkpoints WHERE Id=@id", conn);
+
 			cmd.Parameters.AddWithValue("@id", id);
 			reader = cmd.ExecuteReader();
 

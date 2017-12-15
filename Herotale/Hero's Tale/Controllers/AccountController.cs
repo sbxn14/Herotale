@@ -1,15 +1,12 @@
 ﻿
 using Herotale.Contexts;
-using Herotale.Database;
 using Herotale.Models;
-using Herotale.Models.Enums;
 using Herotale.MSSQL_Repositories;
 using Herotale.ViewModels;
 using System;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using System.Web.WebPages;
 
 namespace Herotale.Controllers

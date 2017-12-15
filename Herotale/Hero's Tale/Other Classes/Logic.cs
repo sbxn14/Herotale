@@ -135,7 +135,7 @@ namespace Herotale
 			{
 				Inp.Char.Cp.Event = progress;
 				Inp.Char.Cp.Id = (progress + 4);
-				Inp.Char.CpId = (progress + 4);
+				Inp.Char.Cp.Id = (progress + 4);
 			}
 
 
@@ -268,7 +268,7 @@ namespace Herotale
 			return result;
 		}
 
-		public List<Story> GetAllStories(CharacterViewModel Chara)
+		public List<Story> GetAllStories(Character Chara)
 		{
 			SqlDataReader reader = null;
 

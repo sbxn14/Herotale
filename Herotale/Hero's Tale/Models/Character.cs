@@ -3,23 +3,23 @@
 namespace Herotale.Models
 {
 	public class Character
-    {
-        public int Id { get; }
-        public string Name { get; }
-        public string Gender { get; }
-        public int Health { get; }
-        public int MaxHealth { get; }
-        public int AttackPower { get; }
-        public int Defense { get; }
-        public int Speed { get; }
-        public Checkpoint Cp { get; }
-        public Class Cl { get; }
-        public Race Rc { get; }
-        public Inventory Inven { get; }
-        public Account Acc { get; }
-        public Item Slot1 { get; }
-        public Item Slot2 { get; }
-        public Item Slot3 { get; }
+	{
+		public int Id { get; }
+		public string Name { get; }
+		public string Gender { get; }
+		public int Health { get; }
+		public int MaxHealth { get; }
+		public int AttackPower { get; }
+		public int Defense { get; }
+		public int Speed { get; }
+		public Checkpoint Cp { get; }
+		public Class Cl { get; }
+		public Race Rc { get; }
+		public Inventory Inven { get; }
+		public Account Acc { get; }
+		public Item Slot1 { get; }
+		public Item Slot2 { get; }
+		public Item Slot3 { get; }
 
 		// for ingame
 		public Character(CharacterViewModel c)
@@ -49,7 +49,6 @@ namespace Herotale.Models
 			Name = name;
 			Gender = gender;
 			Health = health;
-			MaxHealth = maxhealth;
 			AttackPower = attackpower;
 			Defense = defense;
 			Speed = speed;
@@ -63,11 +62,10 @@ namespace Herotale.Models
 			Slot3 = slot3;
 		}
 
+
 		public Character()
 		{
 
 		}
-
-
-    }
+	}
 }

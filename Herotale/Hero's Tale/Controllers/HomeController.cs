@@ -51,7 +51,7 @@ namespace Herotale.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult CharacterCreation()
+		public ActionResult CharacterCreation(Account acc)
 		{
 			return View(new CharacterViewModel());
 		}
@@ -66,7 +66,8 @@ namespace Herotale.Controllers
 
 			if (CharCon.InsertCharacter(Chaa))
 			{
-				Session["Character"] = Chaa;
+				Character ca = new Character(Chaa);
+				Session["Character"] = ca;
 				return RedirectToAction("Index");
 			}
 			return View();

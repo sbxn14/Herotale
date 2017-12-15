@@ -28,7 +28,7 @@ namespace Herotale.Contexts
             return Rep.Get(acc);
         }
 
-        public bool Update(CharacterViewModel Char)
+        public bool Update(Character Char)
         {
             return Rep.Update(Char);
         }

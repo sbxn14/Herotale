@@ -1,8 +1,4 @@
 ﻿using Herotale.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Herotale.ViewModels
 {
@@ -16,7 +12,6 @@ namespace Herotale.ViewModels
 		public int AttackPower { get; set; }
 		public int Defense { get; set; }
 		public int Speed { get; set; }
-		public int CpId { get; set; }
 		public Checkpoint Cp { get; set; }
 		public Class Cl { get; set; }
 		public Race Rc { get; set; }
@@ -25,5 +20,34 @@ namespace Herotale.ViewModels
 		public Item Slot1 { get; set; }
 		public Item Slot2 { get; set; }
 		public Item Slot3 { get; set; }
+
+		public CharacterViewModel()
+		{
+
+		}
+
+		public CharacterViewModel(Account a)
+		{
+			Acc = a;
+		}
+
+		public CharacterViewModel(Character Cha)
+		{
+			Id = Cha.Id;
+			Name = Cha.Name;
+			Gender = Cha.Gender;
+			Health = Cha.Health;
+			MaxHealth = Health;
+			AttackPower = Cha.AttackPower;
+			Defense = Cha.Defense;
+			Speed = Cha.Speed;
+			Cp = Cha.Cp;
+			Rc = Cha.Rc;
+			Inven = Cha.Inven;
+			Acc = Cha.Acc;
+			Slot1 = Cha.Slot1;
+			Slot2 = Cha.Slot2;
+			Slot3 = Cha.Slot3;
+		}
 	}
 }
