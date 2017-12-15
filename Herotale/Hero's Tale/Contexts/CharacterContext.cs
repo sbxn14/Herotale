@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Herotale.IRepositories;
+﻿using Herotale.IRepositories;
 using Herotale.Models;
+using Herotale.ViewModels;
 
 namespace Herotale.Contexts
 {
-    public class CharacterContext
+	public class CharacterContext
     {
         readonly ICharacterRepository Rep;
 
@@ -16,9 +13,9 @@ namespace Herotale.Contexts
             Rep = rep;
         }
 
-        public bool InsertCharacter(Character Chara)
+        public bool InsertCharacter(CharacterViewModel Chara)
         {
-            return Rep.Insert(Chara);
+			return Rep.Insert(Chara);
         }
 
         public bool CheckForCharacter(Account acc)
@@ -31,12 +28,12 @@ namespace Herotale.Contexts
             return Rep.Get(acc);
         }
 
-        public bool Update(Character Char)
+        public bool Update(CharacterViewModel Char)
         {
             return Rep.Update(Char);
         }
 
-        public Character Create(Character Char)
+        public CharacterViewModel Calculate(CharacterViewModel Char)
         {
             return Rep.Create(Char);
         }

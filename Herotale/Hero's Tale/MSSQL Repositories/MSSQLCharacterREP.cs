@@ -8,16 +8,17 @@ using Herotale.IRepositories;
 using Herotale.Models;
 using System.Collections.Generic;
 using Herotale.Contexts;
+using Herotale.ViewModels;
 
 namespace Herotale.MSSQL_Repositories
 {
 	public class MssqlCharacterRep : ICharacterRepository
 	{
-		public bool Insert(Character obj)
+		public bool Insert(CharacterViewModel obj)
 		{
 			SqlCommand com = new SqlCommand();
-
-			Item Emp = Datamanager.GetEmptyItem();
+			ItemContext itemcot = new ItemContext(new MssqlItemRep());
+			Item Emp = itemcot.GetEmptyItem();
 
 			string query = "INSERT INTO dbo.Characters (Name, Gender, ClassId, RaceId, Health, AttackPower, Defense, Speed, CheckpointId, InventoryId, Slot1Id, Slot2Id, Slot3Id, AccountId) VALUES (@name, @gender, @Classid, @Raceid, @MaxHP, @AP, @DEF, @SPD, @Cpid, @Invenid, @Slot1id, @Slot2id, @Slot3id, @Accid)";
 
@@ -25,18 +26,18 @@ namespace Herotale.MSSQL_Repositories
 
 			com.Parameters.AddWithValue("@name", obj.Name);
 			com.Parameters.AddWithValue("@gender", obj.Gender);
-			com.Parameters.AddWithValue("@Classid", obj.ClassId);
-			com.Parameters.AddWithValue("@Raceid", obj.RaceId);
-			com.Parameters.AddWithValue("@Accid", obj.AccId);
+			com.Parameters.AddWithValue("@Classid", obj.Cl.Id);
+			com.Parameters.AddWithValue("@Raceid", obj.Rc.Id);
+			com.Parameters.AddWithValue("@Accid", obj.Acc.Id);
 			com.Parameters.AddWithValue("@MaxHP", obj.MaxHealth);
 			com.Parameters.AddWithValue("@AP", obj.AttackPower);
 			com.Parameters.AddWithValue("@SPD", obj.Speed);
 			com.Parameters.AddWithValue("@DEF", obj.Defense);
-			com.Parameters.AddWithValue("@Invenid", obj.InvenId);
+			com.Parameters.AddWithValue("@Invenid", obj.Inven.Id);
 			com.Parameters.AddWithValue("@Slot1id", Emp.Id);
 			com.Parameters.AddWithValue("@Slot2id", Emp.Id);
 			com.Parameters.AddWithValue("@Slot3id", Emp.Id);
-			com.Parameters.AddWithValue("@Cpid", 1); //Checkpoint = 1. means beginning.
+			com.Parameters.AddWithValue("@Cpid", 7); //Checkpoint = 7. means beginning.
 
 			return DB.RunNonQuery(com);
 		}
@@ -49,7 +50,15 @@ namespace Herotale.MSSQL_Repositories
 		public Character Get(Account acc)
 		{
 			SqlDataReader reader = null;
-			Character c = new Character();
+			RaceContext rccon = new RaceContext(new MssqlRaceRep());
+			ClassContext clcon = new ClassContext(new MssqlClassRep());
+			CheckpointContext cpcon = new CheckpointContext(new MSSQLCheckpointREP());
+			InventoryContext invencon = new InventoryContext(new MssqlInventoryRep());
+			ItemContext itemcon = new ItemContext(new MssqlItemRep());
+			AccountContext acccon = new AccountContext(new MssqlAccountRep());
+			Character ca = new Character();
+
+
 			SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
 			conn.Open();
 			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Characters WHERE AccountId=@id", conn);
@@ -60,42 +69,54 @@ namespace Herotale.MSSQL_Repositories
 			{
 				while (reader.Read())
 				{
-					c.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-					c.Name = reader.GetString(reader.GetOrdinal("Name"));
-					c.Gender = reader.GetString(reader.GetOrdinal("Gender"));
-					c.Health = reader.GetInt32(reader.GetOrdinal("Health"));
-					c.AttackPower = reader.GetInt32(reader.GetOrdinal("AttackPower"));
-					c.Defense = reader.GetInt32(reader.GetOrdinal("Defense"));
-					c.Speed = reader.GetInt32(reader.GetOrdinal("Speed"));
+					int rcid = reader.GetInt32(reader.GetOrdinal("RaceId"));
+					int clid = reader.GetInt32(reader.GetOrdinal("ClassId"));
+					int cpid = reader.GetInt32(reader.GetOrdinal("CheckpointId"));
+					int invenid = reader.GetInt32(reader.GetOrdinal("InventoryId"));
+					int slot1id = reader.GetInt32(reader.GetOrdinal("Slot1Id"));
+					int slot2id = reader.GetInt32(reader.GetOrdinal("Slot2Id"));
+					int slot3id = reader.GetInt32(reader.GetOrdinal("Slot3Id"));
+					int accid = acc.Id;
 
-					c.ClassId = reader.GetInt32(reader.GetOrdinal("ClassId"));
-					c.RaceId = reader.GetInt32(reader.GetOrdinal("RaceId"));
-					c.Slot1Id = reader.GetInt32(reader.GetOrdinal("Slot1Id"));
-					c.Slot2Id = reader.GetInt32(reader.GetOrdinal("Slot2Id"));
-					c.Slot3Id = reader.GetInt32(reader.GetOrdinal("Slot3Id"));
-					c.CpId = reader.GetInt32(reader.GetOrdinal("CheckpointId"));
-					c.InvenId = reader.GetInt32(reader.GetOrdinal("InventoryId"));
-					c.AccId = acc.Id;
-<<<<<<< HEAD
-=======
-					c.IsNew = reader.GetBoolean(reader.GetOrdinal("New"));
->>>>>>> master
+					//c.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+					//c.Name = reader.GetString(reader.GetOrdinal("Name"));
+					//c.Gender = reader.GetString(reader.GetOrdinal("Gender"));
+					//c.Health = reader.GetInt32(reader.GetOrdinal("Health"));
+					//c.AttackPower = reader.GetInt32(reader.GetOrdinal("AttackPower"));
+					//c.Defense = reader.GetInt32(reader.GetOrdinal("Defense"));
+					//c.Speed = reader.GetInt32(reader.GetOrdinal("Speed"));
 
-					Datamanager.Init();
+					//c.Rc.Id = reader.GetInt32(reader.GetOrdinal("RaceId"));
+					//c.Rc = rccon.GetById(c.Rc.Id);
 
-					c.Rc = Datamanager.RaceList.FirstOrDefault(x => x.Id == c.RaceId);
-					c.Cl = Datamanager.ClassList.FirstOrDefault(x => x.Id == c.ClassId);
-					c.Cp = Datamanager.CPList.FirstOrDefault(x => x.Id == c.CpId);
-					c.Inven = Datamanager.InvenList.FirstOrDefault(x => x.Id == c.InvenId);
-					c.Slot1 = Datamanager.ItemList.FirstOrDefault(x => x.Id == c.Slot1Id);
-					c.Slot2 = Datamanager.ItemList.FirstOrDefault(x => x.Id == c.Slot2Id);
-					c.Slot3 = Datamanager.ItemList.FirstOrDefault(x => x.Id == c.Slot3Id);
-					c.Acc = Datamanager.AccList.FirstOrDefault(x => x.Id == c.AccId);
-					c.MaxHealth = c.Health;
+					//c.Cl.Id = reader.GetInt32(reader.GetOrdinal("ClassId"));
+					//c.Cl = clcon.GetById(c.Cl.Id);
+
+					//c.Cp.Id = reader.GetInt32(reader.GetOrdinal("CheckpointId"));
+					//c.Cp = cpcon.GetById(c.Cp.Id);
+
+					//c.Inven.Id = reader.GetInt32(reader.GetOrdinal("InventoryId"));
+					//c.Inven = invencon.GetById(c.Inven.Id);
+
+					//c.Slot1.Id = reader.GetInt32(reader.GetOrdinal("Slot1Id"));
+					//c.Slot1 = itemcon.GetById(c.Slot1.Id);
+
+					//c.Slot2.Id = reader.GetInt32(reader.GetOrdinal("Slot2Id"));
+					//c.Slot2 = itemcon.GetById(c.Slot1.Id);
+
+					//c.Slot3.Id = reader.GetInt32(reader.GetOrdinal("Slot3Id"));
+					//c.Slot3 = itemcon.GetById(c.Slot3.Id);
+
+					//c.Acc.Id = reader.GetInt32(reader.GetOrdinal("AccountId"));
+					//c.Acc = acccon.GetById(c.Acc.Id);
+
+					//c.MaxHealth = c.Health;
+
+					ca = new Character(reader.GetInt32(reader.GetOrdinal("Id")), reader.GetString(reader.GetOrdinal("Name")), reader.GetString(reader.GetOrdinal("Gender")), reader.GetInt32(reader.GetOrdinal("Health")), reader.GetInt32(reader.GetOrdinal("Health")), reader.GetInt32(reader.GetOrdinal("AttackPower")), reader.GetInt32(reader.GetOrdinal("Defense")), reader.GetInt32(reader.GetOrdinal("Speed")), cpcon.GetById(cpid), clcon.GetById(clid), rccon.GetById(rcid), invencon.GetById(invenid), acccon.GetById(accid), itemcon.GetById(slot1id), itemcon.GetById(slot2id), itemcon.GetById(slot3id));
 				}
 				conn.Close();
 				conn.Dispose();
-				return c;
+				return ca;
 			}
 			conn.Close();
 			conn.Dispose();
@@ -124,57 +145,48 @@ namespace Herotale.MSSQL_Repositories
 			return false;
 		}
 
-		public bool Update(Character Char)
+		public bool Update(CharacterViewModel Char)
 		{
-<<<<<<< HEAD
+
 			string query = "UPDATE dbo.Characters SET AttackPower = @AP, Defense = @DEF, Speed = @SPD, Slot1Id = @Slot1Id, Slot2Id = @Slot2Id, Slot3Id = @Slot3Id, CheckpointId = @CPID WHERE Id=@Id";
-=======
-			string query = "UPDATE dbo.Characters SET AttackPower = @AP, Defense = @DEF, Speed = @SPD, Slot1Id = @Slot1Id, Slot2Id = @Slot2Id, Slot3Id = @Slot3Id, CheckpointId = @CPID, New = @New WHERE Id=@Id";
->>>>>>> master
+
 			SqlCommand cmd = new SqlCommand(query);
 
 			cmd.Parameters.AddWithValue("@AP", Char.AttackPower);
 			cmd.Parameters.AddWithValue("@DEF", Char.Defense);
 			cmd.Parameters.AddWithValue("@SPD", Char.Speed);
-			cmd.Parameters.AddWithValue("@Slot1Id", Char.Slot1Id);
-			cmd.Parameters.AddWithValue("@Slot2Id", Char.Slot2Id);
-			cmd.Parameters.AddWithValue("@Slot3Id", Char.Slot3Id);
-			cmd.Parameters.AddWithValue("@CPID", Char.CpId);
-<<<<<<< HEAD
-=======
-			cmd.Parameters.AddWithValue("@New", Char.IsNew);
->>>>>>> master
+			cmd.Parameters.AddWithValue("@Slot1Id", Char.Slot1.Id);
+			cmd.Parameters.AddWithValue("@Slot2Id", Char.Slot2.Id);
+			cmd.Parameters.AddWithValue("@Slot3Id", Char.Slot3.Id);
+			cmd.Parameters.AddWithValue("@CPID", Char.Cp.Id);
 			cmd.Parameters.AddWithValue("@Id", Char.Id);
 
 			return DB.RunNonQuery(cmd);
 		}
 
-		public Character Create(Character Chaa)
+		public CharacterViewModel Create(CharacterViewModel Chaa)
 		{
-
-			Datamanager.Init();
 			ClassContext ClCon = new ClassContext(new MssqlClassRep());
 			RaceContext RcCon = new RaceContext(new MssqlRaceRep());
 			InventoryContext InCon = new InventoryContext(new MssqlInventoryRep());
+			AccountContext acccon = new AccountContext(new MssqlAccountRep());
+			CheckpointContext cpcon = new CheckpointContext(new MSSQLCheckpointREP());
 			Inventory i = new Inventory();
 			InCon.Insert(i);
-			List<Inventory> InvenList = Datamanager.GetInventories();
-			List<Account> AccList = Datamanager.AccList;
-			List<Checkpoint> CpList = Datamanager.GetCps();
+			List<Inventory> InvenList = InCon.GetAll();
+			List<Account> AccList = acccon.GetAll();
+			List<Checkpoint> CpList = cpcon.GetAll();
 
-			Race r = RcCon.GetById(Chaa.RaceId);
-			Class c = ClCon.GetById(Chaa.ClassId);
-			Chaa.Cl = c;
-			Chaa.Rc = r;
+			Race r = RcCon.GetById(Chaa.Rc.Id);
+			Class c = ClCon.GetById(Chaa.Cl.Id);
+
 			i = InvenList.LastOrDefault();
-			Chaa.Acc = AccList.LastOrDefault();
-			Chaa.Inven = i;
-			Chaa.InvenId = i.Id;
-			Chaa.Cp = CpList[0];
-			Chaa.CpId = Chaa.Cp.Id;
-			Chaa.IsNew = true;
 
-			switch (Chaa.ClassId)
+			Chaa.Acc = acccon.GetById(Chaa.Acc.Id);
+			Chaa.Inven = i;
+			Chaa.Cp = CpList[0];
+
+			switch (Chaa.Cl.Id)
 			{
 				case 1: //thief
 					Chaa.AttackPower = 10 + c.AttackBonus;
@@ -196,7 +208,7 @@ namespace Herotale.MSSQL_Repositories
 					break;
 			}
 
-			switch (Chaa.RaceId)
+			switch (Chaa.Rc.Id)
 			{
 				case 1: //human
 					Chaa.AttackPower = 10 + r.AttackBonus;
@@ -236,6 +248,11 @@ namespace Herotale.MSSQL_Repositories
 			Chaa.Health = Chaa.MaxHealth;
 
 			return Chaa;
+		}
+
+		public bool Remove(CharacterViewModel Chaa)
+		{
+			throw new NotImplementedException();
 		}
 	}
 

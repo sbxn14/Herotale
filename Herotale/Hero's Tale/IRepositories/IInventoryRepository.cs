@@ -6,5 +6,6 @@ namespace Herotale.IRepositories
     public interface IInventoryRepository : IRepository<Inventory>
     {
         Inventory Get(int id);
+		List<Inventory> GetAll();
     }
 }

@@ -1,6 +1,6 @@
 ﻿@using System.Web.UI.WebControls
 @using Herotale.Controllers
-@model Herotale.Models.Character
+@model Herotale.Models.CharacterViewModel
 
 @{
     List<SelectListItem> ListClasses = new List<SelectListItem>();
@@ -83,14 +83,14 @@
             @Html.DropDownListFor(model => model.Gender, ListGenders, new { @class = "regbox" })
             <br />
             <br />
-            @Html.LabelFor(model => model.RaceId, htmlAttributes: new { @class = "label" })
+            @Html.LabelFor(model => model.Rc, htmlAttributes: new { @class = "label" })
             <br />
-            @Html.DropDownListFor(model => model.RaceId, ListRaces, new { @class = "regbox" })
+            @Html.DropDownListFor(model => model.Rc.Id, ListRaces, new { @class = "regbox" })
             <br />
             <br />
-            @Html.LabelFor(model => model.ClassId, htmlAttributes: new { @class = "label" })
+            @Html.LabelFor(model => model.Cl, htmlAttributes: new { @class = "label" })
             <br />
-            @Html.DropDownListFor(model => model.ClassId, ListClasses, new { @class = "regbox" })
+            @Html.DropDownListFor(model => model.Cl.Id, ListClasses, new { @class = "regbox" })
             <br />
             <br />
             <input type="submit" value="Confirm" class="confirm" />
