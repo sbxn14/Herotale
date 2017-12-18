@@ -92,5 +92,24 @@ namespace Herotale.Models
 			Slot2 = c.Slot2;
 			Slot3 = c.Slot3;			
 		}
+		public Character(Checkpoint CPP, Character c)
+		{
+			Cp = CPP;
+			Id = c.Id;
+			Name = c.Name;
+			Gender = c.Gender;
+			Health = c.Health;
+			MaxHealth = c.MaxHealth;
+			AttackPower = c.AttackPower;
+			Defense = c.Defense;
+			Speed = c.Speed;
+			Cl = c.Cl;
+			Rc = c.Rc;
+			Inven = c.Inven;
+			Acc = c.Acc;
+			Slot1 = c.Slot1;
+			Slot2 = c.Slot2;
+			Slot3 = c.Slot3;
+		}
 	}
 }

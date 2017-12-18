@@ -95,7 +95,7 @@ namespace Herotale.MSSQL_Repositories
 						while (reader.Read())
 						{
 							Enemy r = new Enemy();
-							r.Id = id;
+							r.Id = reader.GetInt32(reader.GetOrdinal("Id"));
 							r.Name = reader.GetString(reader.GetOrdinal("Name"));
 							r.AttackPower = reader.GetInt32(reader.GetOrdinal("Attack Power"));
 							r.Health = reader.GetInt32(reader.GetOrdinal("Health"));

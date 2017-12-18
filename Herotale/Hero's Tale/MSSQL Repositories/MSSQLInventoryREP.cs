@@ -82,6 +82,17 @@ namespace Herotale.MSSQL_Repositories
 					i.Slots[8] = reader.GetInt32(reader.GetOrdinal("item9id"));
 					i.Slots[9] = reader.GetInt32(reader.GetOrdinal("item10id"));
 
+					i.Slots[0] = reader.GetInt32(reader.GetOrdinal("item1id"));
+					i.Slots[1] = reader.GetInt32(reader.GetOrdinal("item2id"));
+					i.Slots[2] = reader.GetInt32(reader.GetOrdinal("item3id"));
+					i.Slots[3] = reader.GetInt32(reader.GetOrdinal("item4id"));
+					i.Slots[4] = reader.GetInt32(reader.GetOrdinal("item5id"));
+					i.Slots[5] = reader.GetInt32(reader.GetOrdinal("item6id"));
+					i.Slots[6] = reader.GetInt32(reader.GetOrdinal("item7id"));
+					i.Slots[7] = reader.GetInt32(reader.GetOrdinal("item8id"));
+					i.Slots[8] = reader.GetInt32(reader.GetOrdinal("item9id"));
+					i.Slots[9] = reader.GetInt32(reader.GetOrdinal("item10id"));
+
 					i.Items[0] = ItemCon.GetById(i.Slots[0]);
 					i.Items[1] = ItemCon.GetById(i.Slots[1]);
 					i.Items[2] = ItemCon.GetById(i.Slots[2]);

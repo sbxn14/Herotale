@@ -83,16 +83,23 @@ namespace Herotale.Controllers
 
 			if (acc != null)
 			{
-				Account a = new Account
+				bool auth;
+				string id = null;
+				Account a = new Account();
+				if (acc.Email == null || acc.Password == null)
 				{
-					Email = acc.Email,
-					Password = PasswordMan.Hash(acc.Password)
-				};
+					auth = false;
+				}
+				else
+				{
+					a.Email = acc.Email;
+					a.Password = PasswordMan.Hash(acc.Password);
 
-				bool auth = AccCon.LoginAccount(a);
-				string id = AccCon.LoginId(a);
-				a.Id = Convert.ToInt32(id);
+					auth = AccCon.LoginAccount(a);
+					id = AccCon.LoginId(a);
+					a.Id = Convert.ToInt32(id);
 
+				}
 				if (auth == false)
 				{
 					ViewBag.Message = "This is not a registered Account. Check your Email or Password.";

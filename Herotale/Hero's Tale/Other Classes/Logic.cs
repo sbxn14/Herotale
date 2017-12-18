@@ -149,21 +149,26 @@ namespace Herotale
 				Str = cb.EnemyTurn(Inp.Char, Enem);
 				CombatProgress = Str.CombatTurn;
 			}
-			else if (CombatProgress == 4) //enemydeath
-			{
-				progress += 1;
-				InCombat = false;
-			}
 
 			//continue with story here. if desired.
 
 			if (InCombat)
 			{
+				if (CmNr == 4)
+				{
+					Str = cb.Heal(Inp.Char);
+				}
 				//skip the getting-of-story-segments cause of combat
 			}
-			else if (CombatProgress == 3)
+			else if (CombatProgress == 4) //enemydeath & Resets health to full.
 			{
-
+				progress += 1;
+				InCombat = false;
+				Str.Char = new Character(Str.Char, Str.Char.MaxHealth);
+			}
+			else if (CombatProgress == 3)//playerdeath
+			{
+				//insert player died ending
 			}
 			else
 			{
@@ -179,7 +184,6 @@ namespace Herotale
 			{
 				Inp.Char.Cp.Event = progress;
 				Inp.Char.Cp.Id = (progress + 4);
-				Inp.Char.Cp.Id = (progress + 4);
 			}
 
 
@@ -190,7 +194,7 @@ namespace Herotale
 				Inp = Inp,
 				Str = Str
 			};
-
+			Str.OldProgress = OldProgress;
 			return Mod;
 		}
 
@@ -207,7 +211,11 @@ namespace Herotale
 			i = i.Replace("{DEF}", str.Char.Defense.ToString());
 			i = i.Replace("{SPD}", str.Char.Speed.ToString());
 			i = i.Replace("{char}", str.Char.Name);
-			i = i.Replace("{monster}", Enem.Name);
+
+			if (Enem != null)
+			{
+				i = i.Replace("{monster}", Enem.Name);
+			}
 			str.Sgt.Text = i;
 			return str;
 		}
