@@ -15,50 +15,55 @@ namespace Herotale
 	public class Logic
 	{
 		private CharacterContext CharCon = new CharacterContext(new MssqlCharacterRep());
+		private EnemyContext EnemCon = new EnemyContext(new MssqlEnemyRep());
 		private int OldProgress;
+		private Enemy Enem;
+		bool InCombat;
+		int CombatProgress;
 
 		public StoryViewModel Hub(Input Inp)
 		{
 			int progress = Inp.Char.Cp.Event;
+			Combat cb = new Combat();
 
 			if (progress == 4 && OldProgress > 4)
 			{
 				OldProgress = 5;
 			}
-			else if (progress != 4 || progress != 1 || progress != 2)
+			else if (progress != 4 || progress != 1 || progress != 2) //if your progress is NOT the help/inventory/statistics screen.
 			{
 				OldProgress = progress;
 			}
 
-			Story Str = GetAllStories(Inp.Char)[(progress - 1)];
+			Story Str = GetAllStories(Inp.Char)[(progress - 1)]; //gets story based on progress
 
-			int CmNr = CommandHandler(Inp);
+			int CmNr = CommandHandler(Inp); //converts input message to a number.
 
-			if (progress == 0)
+			if (progress == 0) //if progress is somehow 0, it gets reset to the first screen of the game.
 			{
 				progress = 3;
 				OldProgress = 3;
 			}
-			else if (CmNr == 5)
+			else if (CmNr == 5) //inventory
 			{
 				OldProgress = progress;
 				progress = 1;
 			}
-			else if (CmNr == 8)
+			else if (CmNr == 8) //statistics
 			{
 				OldProgress = progress;
 				progress = 2;
 			}
-			else if (CmNr == 18)
+			else if (CmNr == 18) //helpscreen
 			{
 				OldProgress = progress;
 				progress = 4;
 			}
-			else if (CmNr == Str.Sgt.Choice1 || CmNr == Str.Sgt.Choice2)
+			else if (CmNr == Str.Sgt.Choice1 || CmNr == Str.Sgt.Choice2) //if cmnr equals a choice then do nothing (aka go on)
 			{
 
 			}
-			else if (CmNr != Str.Sgt.Choice1 && progress != 0 || CmNr != Str.Sgt.Choice2 && progress != 0)
+			else if (CmNr != Str.Sgt.Choice1 && progress != 0 || CmNr != Str.Sgt.Choice2 && progress != 0) // if cmnr doesn't equal a choice and progress is not 0. then cmnr = 0.
 			{
 				CmNr = 0;
 			}
@@ -67,71 +72,110 @@ namespace Herotale
 			{
 				progress = OldProgress;
 			}
-			else if (progress == 4 || progress == 1 || progress == 2)
+			else if (progress == 4 || progress == 1 || progress == 2) //if progress is help/inventory/statistics
 			{
-				if (CmNr == 1 || CmNr == 10)
+				if (CmNr == 1 || CmNr == 10) // if command is Close or Continue then continue to last screen.
 				{
 					progress = OldProgress;
 				}
 			}
-			else if (progress == 3)
+			else if (progress == 3) //welcome
 			{
-				if (CmNr == 1)
+				if (CmNr == 1) //continue to tutorial
 				{
 					OldProgress = 5;
 					progress = 4;
 				}
-				else if (CmNr == 2)
+				else if (CmNr == 2) // skip tutorial -> to act one.
 				{
 					OldProgress = 5;
 					progress = 5;
 				}
 			}
-			else if (progress == 5)
+			else if (progress == 5) //act one - plains
 			{
-				if (CmNr == 11)
+				if (CmNr == 11)//forward
 				{
 					OldProgress = 6;
 					progress = 6;
 				}
-				else if (CmNr == 17)
+				else if (CmNr == 17)//run
 				{
-					//ending1
+					//ending 1 (running at start/not entering castle)
 				}
 			}
-			else if (progress == 6)
+			else if (progress == 6)//act one - castle courtyard
 			{
-				if (CmNr == 9)
+				if (CmNr == 9) //Open
 				{
 					OldProgress = 7;
 					progress = 7;
 				}
 			}
-			else if (progress == 7)
+			else if (progress == 7)//act one - castle courtyard - door
 			{
-				if (CmNr == 11)
+				if (CmNr == 11) //forward
 				{
 					OldProgress = 8;
 					progress = 8;
 				}
 			}
-			else if (progress == 8)
+			else if (progress == 8)//act one - atrium
 			{
-				if (CmNr == 11)
+				if (CmNr == 11) // forward
 				{
 					OldProgress = 9;
 					progress = 9;
 				}
 			}
-
-
-			Str.Sgt = GetAllStories(Inp.Char)[(progress - 1)].Sgt;
-			if (Str.Sgt.Text.Contains("{"))
+			else if (progress == 9)
 			{
-				Str = Edit(Str);
+				if (CmNr == 3)
+				{
+					Enem = EnemCon.RandomMob(EnemCon.Randomizer(), EnemCon.GetAll());
+					Str = cb.StartCombat(Inp.Char, Enem);
+					InCombat = true;
+					CombatProgress = Str.CombatTurn;
+				}
 			}
 
-			if(Str.Sgt.Id != 1 && Str.Sgt.Id != 2 && Str.Sgt.Id != 4)
+			if (CombatProgress == 1) //player turn
+			{
+				Str = cb.PlayerTurn(Inp.Char, Enem);
+				CombatProgress = Str.CombatTurn;
+			}
+			else if (CombatProgress == 2) //enemy turn
+			{
+				Str = cb.EnemyTurn(Inp.Char, Enem);
+				CombatProgress = Str.CombatTurn;
+			}
+			else if (CombatProgress == 4) //enemydeath
+			{
+				progress += 1;
+				InCombat = false;
+			}
+
+			//continue with story here. if desired.
+
+			if (InCombat)
+			{
+				//skip the getting-of-story-segments cause of combat
+			}
+			else if (CombatProgress == 3)
+			{
+
+			}
+			else
+			{
+				Str.Sgt = GetAllStories(Inp.Char)[(progress - 1)].Sgt; //get story segment based on progress (not in combat)
+			}
+
+			if (Str.Sgt.Text.Contains("{"))
+			{
+				Str = Edit(Str); //replace any {statements} with the fitting replacement.
+			}
+
+			if (Str.Sgt.Id != 1 && Str.Sgt.Id != 2 && Str.Sgt.Id != 4) //if story segment is not help/inventory/statistics. Set checkpoint on current progress.
 			{
 				Inp.Char.Cp.Event = progress;
 				Inp.Char.Cp.Id = (progress + 4);
@@ -139,7 +183,7 @@ namespace Herotale
 			}
 
 
-			CharCon.Update(Inp.Char);
+			CharCon.Update(Inp.Char);//update character
 
 			StoryViewModel Mod = new StoryViewModel
 			{
@@ -162,6 +206,8 @@ namespace Herotale
 			i = i.Replace("{AP}", str.Char.AttackPower.ToString());
 			i = i.Replace("{DEF}", str.Char.Defense.ToString());
 			i = i.Replace("{SPD}", str.Char.Speed.ToString());
+			i = i.Replace("{char}", str.Char.Name);
+			i = i.Replace("{monster}", Enem.Name);
 			str.Sgt.Text = i;
 			return str;
 		}
@@ -181,7 +227,7 @@ namespace Herotale
 
 					In.Message = char.ToUpper(In.Message[0]) + In.Message.Substring(1);
 				}
-				else if(In.Message.Contains("statistics") || In.Message.Contains("Statistics"))
+				else if (In.Message.Contains("statistics") || In.Message.Contains("Statistics"))
 				{
 					In.Message = "Stats";
 				}

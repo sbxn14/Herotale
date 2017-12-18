@@ -49,6 +49,7 @@ namespace Herotale.Models
 			Name = name;
 			Gender = gender;
 			Health = health;
+			MaxHealth = Health;
 			AttackPower = attackpower;
 			Defense = defense;
 			Speed = speed;
@@ -62,10 +63,34 @@ namespace Herotale.Models
 			Slot3 = slot3;
 		}
 
+		public Character(Account a)
+		{
+			Acc = a;
+		}
 
 		public Character()
 		{
+			MaxHealth = Health;
+		}
 
+		public Character(Character c, int health) //for combat damage
+		{
+			Id = c.Id;
+			Name = c.Name;
+			Gender = c.Gender;
+			Health = health;
+			MaxHealth = c.MaxHealth;
+			AttackPower = c.AttackPower;
+			Defense = c.Defense;
+			Speed = c.Speed;
+			Cp = c.Cp;
+			Cl = c.Cl;
+			Rc = c.Rc;
+			Inven = c.Inven;
+			Acc = c.Acc;
+			Slot1 = c.Slot1;
+			Slot2 = c.Slot2;
+			Slot3 = c.Slot3;			
 		}
 	}
 }

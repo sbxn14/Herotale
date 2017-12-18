@@ -1,14 +1,13 @@
-﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web.ModelBinding;
+﻿using Herotale.Contexts;
 using Herotale.Database;
 using Herotale.IRepositories;
 using Herotale.Models;
-using System.Collections.Generic;
-using Herotale.Contexts;
 using Herotale.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Herotale.MSSQL_Repositories
 {
@@ -76,42 +75,8 @@ namespace Herotale.MSSQL_Repositories
 					int slot1id = reader.GetInt32(reader.GetOrdinal("Slot1Id"));
 					int slot2id = reader.GetInt32(reader.GetOrdinal("Slot2Id"));
 					int slot3id = reader.GetInt32(reader.GetOrdinal("Slot3Id"));
+
 					int accid = acc.Id;
-
-					//c.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-					//c.Name = reader.GetString(reader.GetOrdinal("Name"));
-					//c.Gender = reader.GetString(reader.GetOrdinal("Gender"));
-					//c.Health = reader.GetInt32(reader.GetOrdinal("Health"));
-					//c.AttackPower = reader.GetInt32(reader.GetOrdinal("AttackPower"));
-					//c.Defense = reader.GetInt32(reader.GetOrdinal("Defense"));
-					//c.Speed = reader.GetInt32(reader.GetOrdinal("Speed"));
-
-					//c.Rc.Id = reader.GetInt32(reader.GetOrdinal("RaceId"));
-					//c.Rc = rccon.GetById(c.Rc.Id);
-
-					//c.Cl.Id = reader.GetInt32(reader.GetOrdinal("ClassId"));
-					//c.Cl = clcon.GetById(c.Cl.Id);
-
-					//c.Cp.Id = reader.GetInt32(reader.GetOrdinal("CheckpointId"));
-					//c.Cp = cpcon.GetById(c.Cp.Id);
-
-					//c.Inven.Id = reader.GetInt32(reader.GetOrdinal("InventoryId"));
-					//c.Inven = invencon.GetById(c.Inven.Id);
-
-					//c.Slot1.Id = reader.GetInt32(reader.GetOrdinal("Slot1Id"));
-					//c.Slot1 = itemcon.GetById(c.Slot1.Id);
-
-					//c.Slot2.Id = reader.GetInt32(reader.GetOrdinal("Slot2Id"));
-					//c.Slot2 = itemcon.GetById(c.Slot1.Id);
-
-					//c.Slot3.Id = reader.GetInt32(reader.GetOrdinal("Slot3Id"));
-					//c.Slot3 = itemcon.GetById(c.Slot3.Id);
-
-					//c.Acc.Id = reader.GetInt32(reader.GetOrdinal("AccountId"));
-					//c.Acc = acccon.GetById(c.Acc.Id);
-
-					//c.MaxHealth = c.Health;
-
 					ca = new Character(reader.GetInt32(reader.GetOrdinal("Id")), reader.GetString(reader.GetOrdinal("Name")), reader.GetString(reader.GetOrdinal("Gender")), reader.GetInt32(reader.GetOrdinal("Health")), reader.GetInt32(reader.GetOrdinal("Health")), reader.GetInt32(reader.GetOrdinal("AttackPower")), reader.GetInt32(reader.GetOrdinal("Defense")), reader.GetInt32(reader.GetOrdinal("Speed")), cpcon.GetById(cpid), clcon.GetById(clid), rccon.GetById(rcid), invencon.GetById(invenid), acccon.GetById(accid), itemcon.GetById(slot1id), itemcon.GetById(slot2id), itemcon.GetById(slot3id));
 				}
 				conn.Close();
@@ -170,7 +135,9 @@ namespace Herotale.MSSQL_Repositories
 			InventoryContext InCon = new InventoryContext(new MssqlInventoryRep());
 			AccountContext acccon = new AccountContext(new MssqlAccountRep());
 			CheckpointContext cpcon = new CheckpointContext(new MSSQLCheckpointREP());
+			ItemContext iCon = new ItemContext(new MssqlItemRep());
 			Inventory i = new Inventory();
+			Item it = iCon.GetEmptyItem();
 			InCon.Insert(i);
 			List<Inventory> InvenList = InCon.GetAll();
 			List<Account> AccList = acccon.GetAll();
@@ -180,6 +147,10 @@ namespace Herotale.MSSQL_Repositories
 			Class c = ClCon.GetById(Chaa.Cl.Id);
 
 			i = InvenList.LastOrDefault();
+
+			Chaa.Slot1 = it;
+			Chaa.Slot2 = it;
+			Chaa.Slot3 = it;
 
 			Chaa.Acc = acccon.GetById(Chaa.Acc.Id);
 			Chaa.Inven = i;
@@ -210,19 +181,19 @@ namespace Herotale.MSSQL_Repositories
 			switch (Chaa.Rc.Id)
 			{
 				case 1: //human
-					Chaa.AttackPower = 10 + r.AttackBonus;
-					Chaa.Defense = 10 + r.DefenseBonus;
-					Chaa.Speed = 10 + r.SpeedBonus;
+					Chaa.AttackPower += r.AttackBonus;
+					Chaa.Defense += r.DefenseBonus;
+					Chaa.Speed += r.SpeedBonus;
 					break;
 				case 2: //dwarf
-					Chaa.AttackPower = 10 + r.AttackBonus;
-					Chaa.Defense = 10 + r.DefenseBonus;
-					Chaa.Speed = 10 + r.SpeedBonus;
+					Chaa.AttackPower += r.AttackBonus;
+					Chaa.Defense += r.DefenseBonus;
+					Chaa.Speed += r.SpeedBonus;
 					break;
 				case 3: //elf
-					Chaa.AttackPower = 10 + r.AttackBonus;
-					Chaa.Defense = 10 + r.DefenseBonus;
-					Chaa.Speed = 10 + r.SpeedBonus;
+					Chaa.AttackPower += r.AttackBonus;
+					Chaa.Defense += r.DefenseBonus;
+					Chaa.Speed += r.SpeedBonus;
 					break;
 			}
 

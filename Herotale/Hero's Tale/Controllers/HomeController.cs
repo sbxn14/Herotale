@@ -20,7 +20,8 @@ namespace Herotale.Controllers
 
 			Input inp = new Input
 			{
-				Char = Session["Character"] as Character
+				Message = "",
+				Char = Session["Char"] as Character
 			};
 
 			ModelState.Clear();
@@ -36,7 +37,7 @@ namespace Herotale.Controllers
 				Input command = new Input
 				{
 					Message = mod.Inp.Message,
-					Char = Session["Character"] as Character
+					Char = Session["Char"] as Character
 				};
 				
 				Logic log = new Logic();
@@ -53,7 +54,7 @@ namespace Herotale.Controllers
 		[HttpGet]
 		public ActionResult CharacterCreation(Account acc)
 		{
-			return View(new CharacterViewModel());
+			return View(new CharacterViewModel(acc));
 		}
 
 		[ValidateAntiForgeryToken]
@@ -61,13 +62,15 @@ namespace Herotale.Controllers
 		public ActionResult CharacterCreation(CharacterViewModel Chaa)
 		{
 			TicketAuth ticket = new TicketAuth();
+			Chaa.Acc = new Account();
 			Chaa.Acc.Id = ticket.Decrypt();
 			Chaa = CharCon.Calculate(Chaa);
 
 			if (CharCon.InsertCharacter(Chaa))
 			{
+				Chaa.Id = CharCon.Get(Chaa.Acc).Id;
 				Character ca = new Character(Chaa);
-				Session["Character"] = ca;
+				Session["Char"] = ca;
 				return RedirectToAction("Index");
 			}
 			return View();

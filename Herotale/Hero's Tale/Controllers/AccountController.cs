@@ -108,7 +108,7 @@ namespace Herotale.Controllers
 					if (HasCharacter)
 					{
 						Character Chaa = CharCon.Get(a);
-						Session["Character"] = Chaa;
+						Session["Char"] = Chaa;
 						return RedirectToAction("Index", "Home");
 					}
 					return RedirectToAction("CharacterCreation", "Home");
