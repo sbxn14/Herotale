@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Security;
 
 namespace Herotale.Models
 {
-    public class TicketAuth
+	public class TicketAuth
     {
         public HttpCookie Encrypt(string id)
         {

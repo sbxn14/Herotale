@@ -28,7 +28,7 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.TextBoxFor(model => model.Inp.Message, new { @class = "regbox", type="text", autocomplete = "off", height = "30", autofocus = "autofocus", id = "setter", onkeydown = "writeit(this, event);moveIt(this.value.length, event)", onkeyup = "writeit(this, event)", onkeypress = "writeit(this, event)" })
-            }
+			}
             <div id="getter">
                 <span id="writer"></span><b class="cursor" id="cursor">█</b>
             </div>

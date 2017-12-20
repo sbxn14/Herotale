@@ -12,7 +12,7 @@ namespace Herotale.Models
 			Chr = Ch;
 			Enem = En;
 			Random r = new Random();
-			int start = r.Next(1, 2);
+			int start = r.Next(1, 2); // 1 = player start, 2 = enemy start
 			Story Str = new Story
 			{
 				Char = Chr,
@@ -35,79 +35,56 @@ namespace Herotale.Models
 			return Str;
 		}
 
-		public Story EnemyTurn(Character Ch, Enemy En)
+		public Story EnemyTurn(Story Str)
 		{
-			Chr = Ch;
-			Enem = En;
-			Story Str = new Story
-			{
-				Enem = Enem,
-				Sgt = new Segment()
-			};
-
 			Random r = new Random();
-
 			int accuracy = r.Next(0, Chr.Speed); //dodging based on Speed
 
-			if (accuracy >= 15)
+			if (accuracy >= 15) //hit
 			{
 				int defpercentage = Chr.Defense / 100; //amount of damage based on Defense
 				int Health = Str.Char.Health - (Enem.AttackPower * defpercentage);
+				// add story segment
 				Str.Char = new Character(Chr, Health);
 			}
-			else if (accuracy < 15)
+			else if (accuracy < 15)//miss
 			{
+				//add story segment
 				Str.Char = Chr;
 			}
 
 			if (Str.Char.Health <= 0)
 			{
-				Str = PlayerDeath();
+				Str = PlayerDeath(Str);
 			}
 			return Str;
 		}
 
-		public Story PlayerTurn(Character Ch, Enemy En)
+		public Story PlayerTurn(Story Str)
 		{
-			Chr = Ch;
-			Enem = En;
-			Story Str = new Story
-			{
-				Char = Chr,
-				Sgt = new Segment()
-			};
-
 			Random r = new Random();
+			int accuracy = r.Next(1, 100); //0 = miss, 1 = hit.
 
-			int accuracy = r.Next(0, 1); //0 = miss, 1 = hit.
-
-			if (accuracy == 1)
+			if (accuracy > 0)
 			{
-				Str.Sgt.Text = "You caused the " + Enem.Name + " " + Chr.AttackPower + "Damage!";
+				Str.Sgt.Text = "You caused the " + Enem.Name + " " + Chr.AttackPower + " Damage!" + Environment.NewLine + "Type 'Continue' and press Enter to start the Enemy's Turn.";
 				Str.Enem.Health = Enem.Health - Chr.AttackPower;
 			}
 			else if (accuracy == 0)
 			{
 				Str.Enem = Enem;
-				Str.Sgt.Text = "You Missed!";
+				Str.Sgt.Text = "You Missed!" + Environment.NewLine + "Type 'Continue' and press Enter to start the Enemy's Turn.";
 			}
 
 			if (Enem.Health <= 0)
 			{
-				Str = EnemyDeath();
+				Str = EnemyDeath(Str);
 			}
 			return Str;
 		}
 
-		public Story Heal(Character Ch)
+		public Story Heal(Story Str)
 		{
-			Chr = Ch;
-			Story Str = new Story
-			{
-				Char = Chr,
-				Sgt = new Segment()
-			};
-
 			int Health = Chr.Health + 100;
 
 			if (Health > Chr.MaxHealth)
@@ -135,28 +112,18 @@ namespace Herotale.Models
 			return Str;
 		}
 
-		public Story PlayerDeath()
+		public Story PlayerDeath(Story Str)
 		{
-			Story Str = new Story
-			{
-				Char = Chr,
-				Sgt = new Segment(),
-				CombatTurn = 3
-			};
+			Str.CombatTurn = 3;
 
 			Str.Sgt.Title = "The End";
 			Str.Sgt.Text = "You died bro. RIP. Press reset to start over.";
 			return Str;
 		}
 
-		public Story EnemyDeath()
+		public Story EnemyDeath(Story Str)
 		{
-			Story Str = new Story
-			{
-				Char = Chr,
-				Sgt = new Segment(),
-				CombatTurn = 4
-			};
+			Str.CombatTurn = 4;
 
 			Str.Sgt.Title = "Prey Slaughtered";
 			Str.Sgt.Text = "You have slain the " + Enem.Name + "!" + Environment.NewLine + "Congratulations! Type 'Continue' and press Enter.";

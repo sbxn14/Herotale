@@ -12,10 +12,6 @@ namespace Herotale.Contexts
 		{
 			Rep = rep;
 		}
-		public int Randomizer()
-		{
-			return Rep.Randomizer();
-		}
 		public Enemy Get(int id)
 		{
 			return Rep.Get(id);
@@ -24,9 +20,9 @@ namespace Herotale.Contexts
 		{
 			return Rep.GetAll();
 		}
-		public Enemy RandomMob(int RandomNumber, List<Enemy> Enemies)
+		public Enemy GetByName(string name)
 		{
-			return Rep.RandomMob(RandomNumber, Enemies);
+			return Rep.GetByName(name);
 		}
 	}
 }

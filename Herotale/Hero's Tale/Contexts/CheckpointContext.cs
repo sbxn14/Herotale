@@ -23,5 +23,9 @@ namespace Herotale.Contexts
 		{
 			return Rep.GetAll();
 		}
+		public Checkpoint GetByEvent(int Event)
+		{
+			return Rep.GetByEvent(Event);
+		}
 	}
 }

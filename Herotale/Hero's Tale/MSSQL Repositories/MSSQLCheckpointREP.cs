@@ -12,6 +12,36 @@ namespace Herotale.MSSQL_Repositories
 {
 	public class MSSQLCheckpointREP : ICheckpointRepository
 	{
+		public Checkpoint GetByEvent(int Event)
+		{
+
+			SqlDataReader reader = null;
+			Checkpoint r = new Checkpoint();
+			SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
+			conn.Open();
+
+			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Checkpoints WHERE Event=@Event", conn);
+
+			cmd.Parameters.AddWithValue("@Event", Event);
+			reader = cmd.ExecuteReader();
+
+			if (reader != null && reader.HasRows)
+			{
+				while (reader.Read())
+				{
+					r.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+					r.Event = Event;
+
+					conn.Close();
+					conn.Dispose();
+					return r;
+				}
+			}
+			conn.Close();
+			conn.Dispose();
+			return null;
+		}
+
 		public Checkpoint GetById(int id)
 		{
 			SqlDataReader reader = null;

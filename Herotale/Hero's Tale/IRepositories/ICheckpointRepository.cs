@@ -10,5 +10,6 @@ namespace Herotale.IRepositories
 	{
 		Checkpoint GetById(int id);
 		List<Checkpoint> GetAll();
+		Checkpoint GetByEvent(int Event);
 	}
 }
