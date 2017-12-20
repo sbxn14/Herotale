@@ -8,7 +8,6 @@ namespace Herotale.Models
 		public Character Char = new Character();   //has checkpoint
 		public Enemy Enem = new Enemy();
 		public int CombatTurn; //1 = player, 2 = enemy, 3 = playerdeath, 4 = enemydeath
-		public int OldProgress;
 	}
 
 	public class Segment 

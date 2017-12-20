@@ -20,6 +20,8 @@ namespace Herotale.Models
 		public Item Slot1 { get; }
 		public Item Slot2 { get; }
 		public Item Slot3 { get; }
+		public int Progress { get; set; }
+		public int OldProgress { get; set; }
 
 		// for ingame
 		public Character(CharacterViewModel c)

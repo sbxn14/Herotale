@@ -69,12 +69,6 @@ namespace Herotale.MSSQL_Repositories
         {
             throw new System.NotImplementedException();
         }
-
-		public int Randomizer()
-		{
-			Random r = new Random();
-			return r.Next(0, (GetAll().Count - 1));
-		}
 		public List<Enemy> GetAll()
 		{
 			SqlDataReader reader = null;
@@ -115,10 +109,35 @@ namespace Herotale.MSSQL_Repositories
 				}
 			}
 		}
-
-		public Enemy RandomMob(int randomnumber, List<Enemy> Enemies)
+		public Enemy GetByName(string name)
 		{
-			return Enemies[randomnumber];
+			SqlDataReader reader = null;
+			Enemy r = new Enemy();
+			SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
+			conn.Open();
+			SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Enemies WHERE Name=@name", conn);
+			cmd.Parameters.AddWithValue("@name", name);
+			reader = cmd.ExecuteReader();
+
+			if (reader != null && reader.HasRows)
+			{
+				while (reader.Read())
+				{
+					r.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+					r.Name = reader.GetString(reader.GetOrdinal("Name"));
+					r.AttackPower = reader.GetInt32(reader.GetOrdinal("Attack Power"));
+					r.Health = reader.GetInt32(reader.GetOrdinal("Health"));
+
+					conn.Close();
+					conn.Dispose();
+
+					return r;
+				}
+			}
+			conn.Close();
+			conn.Dispose();
+
+			return null;
 		}
 	}
 }

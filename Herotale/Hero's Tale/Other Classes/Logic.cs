@@ -16,26 +16,24 @@ namespace Herotale
 	{
 		private CharacterContext CharCon = new CharacterContext(new MssqlCharacterRep());
 		private EnemyContext EnemCon = new EnemyContext(new MssqlEnemyRep());
+		private CheckpointContext Cpcon = new CheckpointContext(new MSSQLCheckpointREP());
 		private int OldProgress;
-		private Enemy Enem;
+		private int progress;
 		bool InCombat;
 		int CombatProgress;
 
 		public StoryViewModel Hub(Input Inp)
 		{
-			int progress = Inp.Char.Cp.Event;
+			progress = Inp.Char.Cp.Event;
 			Combat cb = new Combat();
 
-			if (progress == 4 && OldProgress > 4)
+			if (progress == 4 && progress > 4)
 			{
 				OldProgress = 5;
 			}
-			else if (progress != 4 || progress != 1 || progress != 2) //if your progress is NOT the help/inventory/statistics screen.
-			{
-				OldProgress = progress;
-			}
 
 			Story Str = GetAllStories(Inp.Char)[(progress - 1)]; //gets story based on progress
+			Str.Enem = CheckForEnemies(Str);
 
 			int CmNr = CommandHandler(Inp); //converts input message to a number.
 
@@ -68,15 +66,11 @@ namespace Herotale
 				CmNr = 0;
 			}
 
-			if (CmNr == 0) // wrong command
-			{
-				progress = OldProgress;
-			}
-			else if (progress == 4 || progress == 1 || progress == 2) //if progress is help/inventory/statistics
+			if (progress == 4 || progress == 1 || progress == 2) //if progress is help/inventory/statistics
 			{
 				if (CmNr == 1 || CmNr == 10) // if command is Close or Continue then continue to last screen.
 				{
-					progress = OldProgress;
+					progress = progress;
 				}
 			}
 			else if (progress == 3) //welcome
@@ -84,9 +78,17 @@ namespace Herotale
 				if (CmNr == 1) //continue to tutorial
 				{
 					OldProgress = 5;
-					progress = 4;
+					progress = 10;
 				}
 				else if (CmNr == 2) // skip tutorial -> to act one.
+				{
+					OldProgress = 5;
+					progress = 5;
+				}
+			}
+			else if (progress == 10)//first tutorial (not the one you can call again and again)
+			{
+				if (CmNr == 1)
 				{
 					OldProgress = 5;
 					progress = 5;
@@ -128,35 +130,42 @@ namespace Herotale
 					progress = 9;
 				}
 			}
-			else if (progress == 9)
+			else if (progress == 9)//act one - stairwell
 			{
 				if (CmNr == 3)
 				{
-					Enem = EnemCon.RandomMob(EnemCon.Randomizer(), EnemCon.GetAll());
-					Str = cb.StartCombat(Inp.Char, Enem);
+					Str = cb.StartCombat(Inp.Char, Str.Enem);
 					InCombat = true;
 					CombatProgress = Str.CombatTurn;
+					Str.Char = Inp.Char;
 				}
 			}
-
+			
 			if (CombatProgress == 1) //player turn
 			{
-				Str = cb.PlayerTurn(Inp.Char, Enem);
+				Str = cb.PlayerTurn(Str);
 				CombatProgress = Str.CombatTurn;
 			}
 			else if (CombatProgress == 2) //enemy turn
 			{
-				Str = cb.EnemyTurn(Inp.Char, Enem);
+				Str = cb.EnemyTurn(Str);
 				CombatProgress = Str.CombatTurn;
 			}
 
 			//continue with story here. if desired.
 
+			StoryViewModel Mod = new StoryViewModel
+			{
+				Inp = Inp,
+				Str = Str
+			};
+
 			if (InCombat)
 			{
 				if (CmNr == 4)
 				{
-					Str = cb.Heal(Inp.Char);
+					Str.Char = Inp.Char;
+					Str = cb.Heal(Str);
 				}
 				//skip the getting-of-story-segments cause of combat
 			}
@@ -182,19 +191,13 @@ namespace Herotale
 
 			if (Str.Sgt.Id != 1 && Str.Sgt.Id != 2 && Str.Sgt.Id != 4) //if story segment is not help/inventory/statistics. Set checkpoint on current progress.
 			{
-				Inp.Char.Cp.Event = progress;
-				Inp.Char.Cp.Id = (progress + 4);
+				Checkpoint k = Cpcon.GetByEvent(progress);
+				Inp.Char = new Character(k, Inp.Char);
 			}
 
-
 			CharCon.Update(Inp.Char);//update character
-
-			StoryViewModel Mod = new StoryViewModel
-			{
-				Inp = Inp,
-				Str = Str
-			};
-			Str.OldProgress = OldProgress;
+			Mod.Inp = Inp;
+			Mod.Str.Char = Inp.Char;
 			return Mod;
 		}
 
@@ -212,11 +215,15 @@ namespace Herotale
 			i = i.Replace("{SPD}", str.Char.Speed.ToString());
 			i = i.Replace("{char}", str.Char.Name);
 
-			if (Enem != null)
+			i = i.Replace("{Skeleton Warrior}", EnemCon.GetByName("Skeleton Warrior").Name);
+
+			if (progress == 9)
 			{
-				i = i.Replace("{monster}", Enem.Name);
+				i = i.Replace("{Monster}", EnemCon.GetByName("Skeleton Warrior").Name);
 			}
+			//add more as combat situations increase.
 			str.Sgt.Text = i;
+			str.Enem = EnemCon.GetByName(i);
 			return str;
 		}
 
@@ -364,6 +371,20 @@ namespace Herotale
 					return result;
 				}
 			}
+		}
+		public Enemy CheckForEnemies(Story Str)
+		{
+			Enemy En = new Enemy();
+			if (Str.Sgt.Text.Contains("{Monster}"))
+			{
+				if (progress == 9)
+				{
+					En = EnemCon.GetByName("Skeleton Warrior");
+				}
+				//add more as combat situations increase.
+			}
+
+			return En;
 		}
 	}
 }

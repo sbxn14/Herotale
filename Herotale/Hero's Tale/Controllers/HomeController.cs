@@ -38,14 +38,15 @@ namespace Herotale.Controllers
 				{
 					Message = mod.Inp.Message,
 					Char = Session["Char"] as Character
-				};
+			};
 				
 				Logic log = new Logic();
 				StoryViewModel str = log.Hub(command);
-
+				str.Inp.Message = string.Empty;
+				Session["Char"] = str.Str.Char;
 				ModelState.Clear();
 
-				return View("Index", str);
+				return View(str);
 			}
 			ModelState.Clear();
 			return View(new Input());
