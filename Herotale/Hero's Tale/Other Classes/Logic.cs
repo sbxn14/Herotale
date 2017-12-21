@@ -148,7 +148,7 @@ namespace Herotale
 					CombatProgress = 1;
 				}
 			}
-
+			
 			if (CombatProgress == 1) //player turn
 			{
 				Str = cb.PlayerTurn(Str);
