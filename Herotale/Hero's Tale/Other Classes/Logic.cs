@@ -1,5 +1,4 @@
 ﻿using Herotale.Contexts;
-using Herotale.Database;
 using Herotale.Models;
 using Herotale.Models.Enums;
 using Herotale.MSSQL_Repositories;
@@ -17,15 +16,17 @@ namespace Herotale
 		private CharacterContext CharCon = new CharacterContext(new MssqlCharacterRep());
 		private EnemyContext EnemCon = new EnemyContext(new MssqlEnemyRep());
 		private CheckpointContext Cpcon = new CheckpointContext(new MSSQLCheckpointREP());
+		private ItemContext ItemCon = new ItemContext(new MssqlItemRep());
+		private Item it = null;
 		private int OldProgress;
 		private int progress;
-		bool InCombat;
-		int CombatProgress;
+		//bool InCombat;
+		//int CombatProgress;
 
 		public StoryViewModel Hub(Input Inp)
 		{
 			progress = Inp.Char.Cp.Event;
-			Combat cb = new Combat();
+			//Combat cb = new Combat();
 
 			if (progress == 4 && progress > 4)
 			{
@@ -33,7 +34,7 @@ namespace Herotale
 			}
 
 			Story Str = GetAllStories(Inp.Char)[(progress - 1)]; //gets story based on progress
-			Str.Enem = CheckForEnemies(Str);
+																 //Str.Enem = CheckForEnemies(Str);
 
 			int CmNr = CommandHandler(Inp); //converts input message to a number.
 
@@ -130,35 +131,58 @@ namespace Herotale
 					progress = 9;
 				}
 			}
-			else if (progress == 9)//act one - stairwell
+			else if (progress == 9)//act one - Hallway
 			{
-				if (CmNr == 3)
+				//if (CmNr == 3)
+				//{
+				//	Str = cb.StartCombat(Inp.Char, Str.Enem);
+				//	InCombat = true;
+				//	CombatProgress = Str.CombatTurn;
+				//	Str.Char = Inp.Char;
+				//}
+				//if (CmNr == 1 && CombatProgress == 1)
+				//{
+				//	CombatProgress = 2;
+				//}
+				//else if (CmNr == 1 && CombatProgress == 2)
+				//{
+				//	CombatProgress = 1;
+				//}
+				if (CmNr == 3) //look at
 				{
-					Str = cb.StartCombat(Inp.Char, Str.Enem);
-					InCombat = true;
-					CombatProgress = Str.CombatTurn;
-					Str.Char = Inp.Char;
+					OldProgress = 11;
+					progress = 11;
 				}
-				if (CmNr == 1 && CombatProgress == 1)
+				else if (CmNr == 11) //forward
 				{
-					CombatProgress = 2;
+					OldProgress = 13;
+					progress = 13;
 				}
-				else if (CmNr == 1 && CombatProgress == 2)
+			}
+			else if (progress == 11) //item after look at
+			{
+				if (CmNr == 10) //continue
 				{
-					CombatProgress = 1;
+					OldProgress = 13;
+					progress = 13;
+				}
+				else if (CmNr == 16) //pickup
+				{
+					Item it = ItemCon.GetRandomItem();
+					//add to inventory
 				}
 			}
 
-			if (CombatProgress == 1) //player turn
-			{
-				Str = cb.PlayerTurn(Str);
-				CombatProgress = Str.CombatTurn;
-			}
-			else if (CombatProgress == 2) //enemy turn
-			{
-				Str = cb.EnemyTurn(Str);
-				CombatProgress = Str.CombatTurn;
-			}
+			//if (CombatProgress == 1) //player turn
+			//{
+			//	Str = cb.PlayerTurn(Str);
+			//	CombatProgress = Str.CombatTurn;
+			//}
+			//else if (CombatProgress == 2) //enemy turn
+			//{
+			//	Str = cb.EnemyTurn(Str);
+			//	CombatProgress = Str.CombatTurn;
+			//}
 
 			//continue with story here. if desired.
 
@@ -168,29 +192,29 @@ namespace Herotale
 				Str = Str
 			};
 
-			if (InCombat)
-			{
-				if (CmNr == 4)
-				{
-					Str.Char = Inp.Char;
-					Str = cb.Heal(Str);
-				}
-				//skip the getting-of-story-segments cause of combat
-			}
-			else if (CombatProgress == 4) //enemydeath & Resets health to full.
-			{
-				progress += 1;
-				InCombat = false;
-				Str.Char = new Character(Str.Char, Str.Char.MaxHealth);
-			}
-			else if (CombatProgress == 3)//playerdeath
-			{
-				//insert player died ending
-			}
-			else
-			{
-				Str.Sgt = GetAllStories(Inp.Char)[(progress - 1)].Sgt; //get story segment based on progress (not in combat)
-			}
+			//if (InCombat)
+			//{
+			//	if (CmNr == 4)
+			//	{
+			//		Str.Char = Inp.Char;
+			//		Str = cb.Heal(Str);
+			//	}
+			//	//skip the getting-of-story-segments cause of combat
+			//}
+			//else if (CombatProgress == 4) //enemydeath & Resets health to full.
+			//{
+			//	progress += 1;
+			//	InCombat = false;
+			//	Str.Char = new Character(Str.Char, Str.Char.MaxHealth);
+			//}
+			//else if (CombatProgress == 3)//playerdeath
+			//{
+			//	//insert player died ending
+			//}
+			//else
+			//{
+			Str.Sgt = GetAllStories(Inp.Char)[(progress - 1)].Sgt; //get story segment based on progress (not in combat)
+																   //}
 
 			if (Str.Sgt.Text.Contains("{"))
 			{
@@ -223,15 +247,19 @@ namespace Herotale
 			i = i.Replace("{SPD}", str.Char.Speed.ToString());
 			i = i.Replace("{char}", str.Char.Name);
 
-			i = i.Replace("{Skeleton Warrior}", EnemCon.GetByName("Skeleton Warrior").Name);
-
-			if (progress == 9)
+			if(it != null)
 			{
-				i = i.Replace("{Monster}", EnemCon.GetByName("Skeleton Warrior").Name);
+				i = i.Replace("{item}", it.Name);
 			}
+
+			//i = i.Replace("{Skeleton Warrior}", EnemCon.GetByName("Skeleton Warrior").Name);
+			//if (progress == 9)
+			//{
+			//	i = i.Replace("{Monster}", EnemCon.GetByName("Skeleton Warrior").Name);
+			//}
 			//add more as combat situations increase.
+			//str.Enem = EnemCon.GetByName(i);
 			str.Sgt.Text = i;
-			str.Enem = EnemCon.GetByName(i);
 			return str;
 		}
 
@@ -332,6 +360,10 @@ namespace Herotale
 			else if (Enum.GetName(typeof(Commands), Commands.Help) == In.Message)
 			{
 				result = (int)Commands.Help;
+			}
+			else if (Enum.GetName(typeof(Commands), Commands.Use) == In.Message)
+			{
+				result = (int)Commands.Use;
 			}
 
 			return result;

@@ -7,5 +7,7 @@ namespace Herotale.IRepositories
     {
         Item Get(int id);
 		Item GetEmptyItem();
+		List<Item> GetAll();
+		Item GetRandomItem();
     }
 }

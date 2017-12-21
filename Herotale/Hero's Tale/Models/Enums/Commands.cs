@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Herotale.Models.Enums
+﻿namespace Herotale.Models.Enums
 {
-    public enum Commands
+	public enum Commands
     {
         Continue = 1,
         Skip = 2,
@@ -24,6 +19,7 @@ namespace Herotale.Models.Enums
         Lookat = 15,
         Pickup = 16,
         Run = 17,
-		Help = 18
+		Help = 18,
+		Use = 19
     }
 }

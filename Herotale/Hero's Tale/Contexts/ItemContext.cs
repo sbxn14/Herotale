@@ -1,5 +1,6 @@
 ﻿using Herotale.IRepositories;
 using Herotale.Models;
+using System.Collections.Generic;
 
 namespace Herotale.Contexts
 {
@@ -20,6 +21,16 @@ namespace Herotale.Contexts
 		public Item GetById(int id)
 		{
 			return Rep.Get(id);
+		}
+
+		public List<Item> GetAll()
+		{
+			return Rep.GetAll();
+		}
+
+		public Item GetRandomItem()
+		{
+			return Rep.GetRandomItem();
 		}
 	}
 }

@@ -32,8 +32,6 @@ namespace Herotale.MSSQL_Repositories
 		{
 			SqlDataReader reader = null;
 			Inventory i = new Inventory();
-
-			i.Slots = new List<int>();
 			i.Items = new List<Item>();
 
 
@@ -49,61 +47,16 @@ namespace Herotale.MSSQL_Repositories
 				{
 					i.Id = reader.GetInt32(reader.GetOrdinal("Id"));
 
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item1id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item2id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item3id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item4id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item5id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item6id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item7id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item8id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item9id")));
-					i.Slots.Add(reader.GetInt32(reader.GetOrdinal("item10id")));
-
-					i.Items.Add(ItemCon.GetById(i.Slots[0]));
-					i.Items.Add(ItemCon.GetById(i.Slots[1]));
-					i.Items.Add(ItemCon.GetById(i.Slots[2]));
-					i.Items.Add(ItemCon.GetById(i.Slots[3]));
-					i.Items.Add(ItemCon.GetById(i.Slots[4]));
-					i.Items.Add(ItemCon.GetById(i.Slots[5]));
-					i.Items.Add(ItemCon.GetById(i.Slots[6]));
-					i.Items.Add(ItemCon.GetById(i.Slots[7]));
-					i.Items.Add(ItemCon.GetById(i.Slots[8]));
-					i.Items.Add(ItemCon.GetById(i.Slots[9]));
-
-					i.Slots[0] = reader.GetInt32(reader.GetOrdinal("item1id"));
-					i.Slots[1] = reader.GetInt32(reader.GetOrdinal("item2id"));
-					i.Slots[2] = reader.GetInt32(reader.GetOrdinal("item3id"));
-					i.Slots[3] = reader.GetInt32(reader.GetOrdinal("item4id"));
-					i.Slots[4] = reader.GetInt32(reader.GetOrdinal("item5id"));
-					i.Slots[5] = reader.GetInt32(reader.GetOrdinal("item6id"));
-					i.Slots[6] = reader.GetInt32(reader.GetOrdinal("item7id"));
-					i.Slots[7] = reader.GetInt32(reader.GetOrdinal("item8id"));
-					i.Slots[8] = reader.GetInt32(reader.GetOrdinal("item9id"));
-					i.Slots[9] = reader.GetInt32(reader.GetOrdinal("item10id"));
-
-					i.Slots[0] = reader.GetInt32(reader.GetOrdinal("item1id"));
-					i.Slots[1] = reader.GetInt32(reader.GetOrdinal("item2id"));
-					i.Slots[2] = reader.GetInt32(reader.GetOrdinal("item3id"));
-					i.Slots[3] = reader.GetInt32(reader.GetOrdinal("item4id"));
-					i.Slots[4] = reader.GetInt32(reader.GetOrdinal("item5id"));
-					i.Slots[5] = reader.GetInt32(reader.GetOrdinal("item6id"));
-					i.Slots[6] = reader.GetInt32(reader.GetOrdinal("item7id"));
-					i.Slots[7] = reader.GetInt32(reader.GetOrdinal("item8id"));
-					i.Slots[8] = reader.GetInt32(reader.GetOrdinal("item9id"));
-					i.Slots[9] = reader.GetInt32(reader.GetOrdinal("item10id"));
-
-					i.Items[0] = ItemCon.GetById(i.Slots[0]);
-					i.Items[1] = ItemCon.GetById(i.Slots[1]);
-					i.Items[2] = ItemCon.GetById(i.Slots[2]);
-					i.Items[3] = ItemCon.GetById(i.Slots[3]);
-					i.Items[4] = ItemCon.GetById(i.Slots[4]);
-					i.Items[5] = ItemCon.GetById(i.Slots[5]);
-					i.Items[6] = ItemCon.GetById(i.Slots[6]);
-					i.Items[7] = ItemCon.GetById(i.Slots[7]);
-					i.Items[8] = ItemCon.GetById(i.Slots[8]);
-					i.Items[9] = ItemCon.GetById(i.Slots[9]);
-
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item1id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item2id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item3id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item4id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item5id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item6id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item7id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item8id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item9id"))));
+					i.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item10id"))));
 
 					conn.Close();
 					conn.Dispose();
@@ -152,7 +105,6 @@ namespace Herotale.MSSQL_Repositories
 
 		public List<Inventory> GetAll()
 		{
-			ItemContext itemcon = new ItemContext(new MssqlItemRep());
 			SqlDataReader reader = null;
 			List<Inventory> result = new List<Inventory>();
 			string query = "Select * from dbo.inventory";
@@ -171,30 +123,30 @@ namespace Herotale.MSSQL_Repositories
 						while (reader.Read())
 						{
 							Inventory obj = new Inventory();
-							obj.Slots = new List<int>();
+							//obj.Slots = new List<int>();
 							obj.Items = new List<Item>();
 							obj.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item1id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item2id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item3id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item4id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item5id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item6id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item7id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item8id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item9id")));
-							obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item10id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item1id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item2id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item3id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item4id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item5id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item6id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item7id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item8id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item9id")));
+							//obj.Slots.Add(reader.GetInt32(reader.GetOrdinal("item10id")));
 
-							obj.Items.Add(itemcon.GetById(obj.Slots[0]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[1]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[2]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[3]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[4]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[5]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[6]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[7]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[8]));
-							obj.Items.Add(itemcon.GetById(obj.Slots[9]));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item1id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item2id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item3id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item4id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item5id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item6id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item7id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item8id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item9id"))));
+							obj.Items.Add(ItemCon.GetById(reader.GetInt32(reader.GetOrdinal("item10id"))));
 							result.Add(obj);
 						}
 					}
@@ -210,6 +162,27 @@ namespace Herotale.MSSQL_Repositories
 					return result;
 				}
 			}
+		}
+
+		public Inventory AddItem(Item i, Story Str)
+		{
+			Inventory Iv = Str.Char.Inven;
+
+			for (int a = 0; a == Iv.Items.Count(); a++)
+			{
+				if (Iv.Items[a].Id == 25)
+				{
+					Iv.Items[a] = i;
+
+					break;
+				}
+			}
+
+
+
+			Update();
+
+			return Iv;
 		}
 	}
 }
