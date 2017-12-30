@@ -77,7 +77,7 @@ namespace Herotale.MSSQL_Repositories
 		{
 			SqlDataReader reader = null;
 			List<Item> result = new List<Item>();
-			string query = "Select * from dbo.Enemies";
+			string query = "Select * from dbo.Items";
 
 			using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString))
 			{
@@ -149,7 +149,12 @@ namespace Herotale.MSSQL_Repositories
 		{
 			Random r = new Random();
 			List<Item> list = GetAll();
-			return list[r.Next(0, list.Count)];
+			Item i = list[r.Next(0, list.Count)];
+			if(i.Id == 25)
+			{
+				GetRandomItem();
+			}
+			return i;
 		}
 	}
 

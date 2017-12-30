@@ -20,8 +20,8 @@ namespace Herotale.Models
 		public Item Slot1 { get; }
 		public Item Slot2 { get; }
 		public Item Slot3 { get; }
-		public int Progress { get; set; }
 		public int OldProgress { get; set; }
+		public int TemporaryItem { get; set; }
 
 		// for ingame
 		public Character(CharacterViewModel c)
@@ -92,7 +92,7 @@ namespace Herotale.Models
 			Acc = c.Acc;
 			Slot1 = c.Slot1;
 			Slot2 = c.Slot2;
-			Slot3 = c.Slot3;			
+			Slot3 = c.Slot3;
 		}
 		public Character(Checkpoint CPP, Character c)
 		{
@@ -112,6 +112,45 @@ namespace Herotale.Models
 			Slot1 = c.Slot1;
 			Slot2 = c.Slot2;
 			Slot3 = c.Slot3;
+		}
+
+		public Character(Character c, Item i, int id) //for equipping/dequipping
+		{
+			Cp = c.Cp;
+			Id = c.Id;
+			Name = c.Name;
+			Gender = c.Gender;
+			Health = c.Health;
+			MaxHealth = c.MaxHealth;
+			AttackPower = c.AttackPower;
+			Defense = c.Defense;
+			Speed = c.Speed;
+			Cl = c.Cl;
+			Rc = c.Rc;
+			Inven = c.Inven;
+			Acc = c.Acc;
+			Slot1 = i;
+			Slot2 = c.Slot2;
+			Slot3 = c.Slot3;
+
+			if (id == 1)
+			{
+				Slot1 = i;
+			}
+			else if (id == 2)
+			{
+				Slot2 = i;
+			}
+			else if (id == 3)
+			{
+				Slot3 = i;
+			}
+			else
+			{
+				Slot1 = c.Slot1;
+				Slot2 = c.Slot2;
+				Slot3 = c.Slot3;
+			}
 		}
 	}
 }

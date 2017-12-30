@@ -69,9 +69,25 @@ namespace Herotale.MSSQL_Repositories
 			return null;
 		}
 
-		public bool Update(Inventory obj)
+		public bool Update(Character Obj)
 		{
-			throw new System.NotImplementedException();
+			string query = "UPDATE dbo.Inventory SET item1id = @Slot1id, item2id = @Slot2id, item3id = @Slot3id, item4id = @Slot4id, item5id = @Slot5id, item6id = @Slot6id, item7id = @Slot7id, item8id = @Slot8id, item9id = @Slot9id, item10id = @Slot10id WHERE id = @id";
+
+			SqlCommand com = new SqlCommand(query);
+
+			com.Parameters.AddWithValue("id", Obj.Inven.Id);
+			com.Parameters.AddWithValue("@Slot1id", Obj.Inven.Items[0].Id);
+			com.Parameters.AddWithValue("@Slot2id", Obj.Inven.Items[1].Id);
+			com.Parameters.AddWithValue("@Slot3id", Obj.Inven.Items[2].Id);
+			com.Parameters.AddWithValue("@Slot4id", Obj.Inven.Items[3].Id);
+			com.Parameters.AddWithValue("@Slot5id", Obj.Inven.Items[4].Id);
+			com.Parameters.AddWithValue("@Slot6id", Obj.Inven.Items[5].Id);
+			com.Parameters.AddWithValue("@Slot7id", Obj.Inven.Items[6].Id);
+			com.Parameters.AddWithValue("@Slot8id", Obj.Inven.Items[7].Id);
+			com.Parameters.AddWithValue("@Slot9id", Obj.Inven.Items[8].Id);
+			com.Parameters.AddWithValue("@Slot10id", Obj.Inven.Items[9].Id);
+
+			return DB.RunNonQuery(com);
 		}
 
 		public bool Insert(Inventory obj)
@@ -164,25 +180,47 @@ namespace Herotale.MSSQL_Repositories
 			}
 		}
 
-		public Inventory AddItem(Item i, Story Str)
+		public Story AddItem(Item i, Story Str)
 		{
-			Inventory Iv = Str.Char.Inven;
-
-			for (int a = 0; a == Iv.Items.Count(); a++)
+			for (int a = 0; a < Str.Char.Inven.Items.Count(); a++)
 			{
-				if (Iv.Items[a].Id == 25)
+				if (Str.Char.Inven.Items[a].Id == 25)// empty slot
 				{
-					Iv.Items[a] = i;
+					Str.Char.Inven.Items[a] = i;
 
-					break;
+					break; //put new item in the first empty slot and then break the loop.
+				}
+			}
+			
+			
+
+			Update(Str.Char);
+
+			return Str;
+		}
+
+		public Character Dequip(Item i, Character Char)
+		{
+			for (int a = 0; a < Char.Inven.Items.Count(); a++)
+			{
+				if (Char.Inven.Items[a].Id == 25)// empty slot
+				{
+					Char.Inven.Items[a] = i;
+
+					break; //put new item in the first empty slot and then break the loop.
 				}
 			}
 
 
 
-			Update();
+			Update(Str.Char);
 
-			return Iv;
+			return Str;
+		}
+
+		public bool Update(Inventory obj)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

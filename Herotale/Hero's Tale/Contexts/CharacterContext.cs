@@ -37,5 +37,16 @@ namespace Herotale.Contexts
         {
             return Rep.Create(Char);
         }
-    }
+		
+		public Character EquipItem(int Whatitem, Character Cha)
+		{
+			return Rep.EquipItem(Whatitem, Cha);
+		}
+
+		public Character DequipItem(int WhatSlot, Character Cha)
+		{
+			return Rep.DequipItem(WhatSlot, Cha);
+		}
+
+	}
 }

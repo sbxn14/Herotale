@@ -17,15 +17,36 @@ namespace Herotale
 		private EnemyContext EnemCon = new EnemyContext(new MssqlEnemyRep());
 		private CheckpointContext Cpcon = new CheckpointContext(new MSSQLCheckpointREP());
 		private ItemContext ItemCon = new ItemContext(new MssqlItemRep());
-		private Item it = null;
+		private InventoryContext InvCon = new InventoryContext(new MssqlInventoryRep());
+		Checkpoint k = null;
 		private int OldProgress;
 		private int progress;
+		private int WhatItem;
 		//bool InCombat;
 		//int CombatProgress;
 
 		public StoryViewModel Hub(Input Inp)
 		{
-			progress = Inp.Char.Cp.Event;
+			if (Inp.Title == "Inventory")
+			{
+				progress = 1;
+				OldProgress = Inp.Char.Cp.Event;
+			}
+			else if (Inp.Title == "Helpscreen" && Inp.Char.Cp.Event != 10)
+			{
+				progress = 4;
+				OldProgress = Inp.Char.Cp.Event;
+			}
+			else if (Inp.Title == "Statistics")
+			{
+				progress = 2;
+				OldProgress = Inp.Char.Cp.Event;
+			}
+			else
+			{
+				progress = Inp.Char.Cp.Event;
+			}
+
 			//Combat cb = new Combat();
 
 			if (progress == 4 && progress > 4)
@@ -34,9 +55,10 @@ namespace Herotale
 			}
 
 			Story Str = GetAllStories(Inp.Char)[(progress - 1)]; //gets story based on progress
-																 //Str.Enem = CheckForEnemies(Str);
-
+			Str.Char = Inp.Char;
 			int CmNr = CommandHandler(Inp); //converts input message to a number.
+
+
 
 			if (progress == 0) //if progress is somehow 0, it gets reset to the first screen of the game.
 			{
@@ -45,33 +67,60 @@ namespace Herotale
 			}
 			else if (CmNr == 5) //inventory
 			{
-				OldProgress = progress;
+				Str.Char.OldProgress = progress;
 				progress = 1;
 			}
 			else if (CmNr == 8) //statistics
 			{
-				OldProgress = progress;
+				Str.Char.OldProgress = progress;
 				progress = 2;
 			}
 			else if (CmNr == 18) //helpscreen
 			{
-				OldProgress = progress;
+				Str.Char.OldProgress = progress;
 				progress = 4;
 			}
 			else if (CmNr == Str.Sgt.Choice1 || CmNr == Str.Sgt.Choice2) //if cmnr equals a choice then do nothing (aka go on)
 			{
 
 			}
-			else if (CmNr != Str.Sgt.Choice1 && progress != 0 || CmNr != Str.Sgt.Choice2 && progress != 0) // if cmnr doesn't equal a choice and progress is not 0. then cmnr = 0.
+			else if (progress != 1 && progress != 2 && progress != 4)
 			{
-				CmNr = 0;
+				if (CmNr != Str.Sgt.Choice1 && progress != 0 || CmNr != Str.Sgt.Choice2 && progress != 0) // if cmnr doesn't equal a choice and progress is not 0. then cmnr = 0.
+				{
+					CmNr = 0;
+				}
+			}
+
+			if (progress == 1)//inventory
+			{
+				if (Inp.Message.Contains("equip") || Inp.Message.Contains("Equip") || Inp.Message.Contains("Dequip") || Inp.Message.Contains("dequip"))
+				{
+					string WhatItem = Inp.Message.Split(' ').FirstOrDefault();
+					WhatItem = char.ToUpper(Inp.Message[0]) + Inp.Message.Substring(1);
+				}
+			}
+
+			if (progress == 1)//inventory
+			{
+				if (CmNr == 6)//equip
+				{
+					if(WhatItem != 0)
+					{
+						CharCon.EquipItem(WhatItem, Inp.Char);
+					}
+				}
+				else if (CmNr == 7)//dequip
+				{
+					CharCon.DequipItem(WhatItem, Inp.Char);
+				}
 			}
 
 			if (progress == 4 || progress == 1 || progress == 2) //if progress is help/inventory/statistics
 			{
 				if (CmNr == 1 || CmNr == 10) // if command is Close or Continue then continue to last screen.
 				{
-					progress = progress;
+					progress = Str.Char.OldProgress;
 				}
 			}
 			else if (progress == 3) //welcome
@@ -81,7 +130,7 @@ namespace Herotale
 					OldProgress = 5;
 					progress = 10;
 				}
-				else if (CmNr == 2) // skip tutorial -> to act one.
+				else if (CmNr == 2) // skip tutorial -> to story.
 				{
 					OldProgress = 5;
 					progress = 5;
@@ -95,7 +144,7 @@ namespace Herotale
 					progress = 5;
 				}
 			}
-			else if (progress == 5) //act one - plains
+			else if (progress == 5) //plains
 			{
 				if (CmNr == 11)//forward
 				{
@@ -104,10 +153,11 @@ namespace Herotale
 				}
 				else if (CmNr == 17)//run
 				{
-					//ending 1 (running at start/not entering castle)
+					progress = 25;//bad ending
+					OldProgress = 25;
 				}
 			}
-			else if (progress == 6)//act one - castle courtyard
+			else if (progress == 6)//castle courtyard
 			{
 				if (CmNr == 9) //Open
 				{
@@ -115,7 +165,7 @@ namespace Herotale
 					progress = 7;
 				}
 			}
-			else if (progress == 7)//act one - castle courtyard - door
+			else if (progress == 7)//castle courtyard - door
 			{
 				if (CmNr == 11) //forward
 				{
@@ -123,7 +173,7 @@ namespace Herotale
 					progress = 8;
 				}
 			}
-			else if (progress == 8)//act one - atrium
+			else if (progress == 8)//atrium
 			{
 				if (CmNr == 11) // forward
 				{
@@ -131,7 +181,7 @@ namespace Herotale
 					progress = 9;
 				}
 			}
-			else if (progress == 9)//act one - Hallway
+			else if (progress == 9)//Hallway before itempickup
 			{
 				//if (CmNr == 3)
 				//{
@@ -148,31 +198,124 @@ namespace Herotale
 				//{
 				//	CombatProgress = 1;
 				//}
-				if (CmNr == 3) //look at
+				if (CmNr == 15) //look at
 				{
 					OldProgress = 11;
 					progress = 11;
+					Inp.Char.TemporaryItem = ItemCon.GetRandomItem().Id; //saves the id of the randomitem in character
 				}
 				else if (CmNr == 11) //forward
 				{
-					OldProgress = 13;
-					progress = 13;
+					OldProgress = 14;
+					progress = 14;
+				}
+				else if (CmNr == 0 && (Str.It.Name == null || Inp.Char.TemporaryItem == 0))
+				{
+					Inp.Char.TemporaryItem = ItemCon.GetRandomItem().Id; //saves the id of the randomitem in character
+				}
+			}
+			else if (progress == 13)//Hallway after item pickup
+			{
+				if (CmNr == 11) //forward
+				{
+					OldProgress = 14;
+					progress = 14;
 				}
 			}
 			else if (progress == 11) //item after look at
 			{
-				if (CmNr == 10) //continue
+				if (CmNr == 11) //continue or forward
 				{
 					OldProgress = 13;
 					progress = 13;
 				}
 				else if (CmNr == 16) //pickup
 				{
-					Item it = ItemCon.GetRandomItem();
-					//add to inventory
+					Str.Char = Inp.Char;
+					Str = InvCon.AddItem(ItemCon.GetById(Inp.Char.TemporaryItem), Str); //additem to inventory
+					OldProgress = 13;
+					progress = 13;
+				}
+				else if ((CmNr == 0 || CmNr == 1 || CmNr == 10) && Inp.Char.TemporaryItem == 0)
+				{
+					Inp.Char.TemporaryItem = ItemCon.GetRandomItem().Id; //saves the id of the randomitem in character
+				}
+			}
+			else if (progress == 14)//infront of upstairs door
+			{
+				if (CmNr == 9)//open
+				{
+					progress = 17;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 17)//infront of OPEN upstairs door
+			{
+				if (CmNr == 11)//forward
+				{
+					progress = 16;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 16)//the room
+			{
+				if (CmNr == 19)//use
+				{
+					progress = 18;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 18)//lever pulled, sound downstairs.
+			{
+				if (CmNr == 12)//back
+				{
+					progress = 19;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 19)//hallway faced towards stairs
+			{
+				if (CmNr == 11)//forward
+				{
+					progress = 20;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 20)//top of staircase
+			{
+				if (CmNr == 11)//forward
+				{
+					progress = 21;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 21)//atrium infront of open door
+			{
+				if (CmNr == 11)//forward
+				{
+					progress = 22;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 22)//Dark room
+			{
+				if (CmNr == 15)//look at light
+				{
+					progress = 23;
+					OldProgress = progress;
+				}
+			}
+			else if (progress == 23)//Candle and button
+			{
+				if (CmNr == 19)//use
+				{
+					progress = 24; //good ending
+					OldProgress = progress;
 				}
 			}
 
+
+			Str.Char = Inp.Char;
 			//if (CombatProgress == 1) //player turn
 			//{
 			//	Str = cb.PlayerTurn(Str);
@@ -223,13 +366,15 @@ namespace Herotale
 
 			if (Str.Sgt.Id != 1 && Str.Sgt.Id != 2 && Str.Sgt.Id != 4) //if story segment is not help/inventory/statistics. Set checkpoint on current progress.
 			{
-				Checkpoint k = Cpcon.GetByEvent(progress);
+				k = Cpcon.GetByEvent(progress);
+
 				Inp.Char = new Character(k, Inp.Char);
 			}
 
 			CharCon.Update(Inp.Char);//update character
 			Mod.Inp = Inp;
 			Mod.Str.Char = Inp.Char;
+			Mod.Str.It = Str.It;
 			return Mod;
 		}
 
@@ -246,10 +391,23 @@ namespace Herotale
 			i = i.Replace("{DEF}", str.Char.Defense.ToString());
 			i = i.Replace("{SPD}", str.Char.Speed.ToString());
 			i = i.Replace("{char}", str.Char.Name);
+			i = i.Replace("{slot1}", str.Char.Slot1.Name);
+			i = i.Replace("{slot2}", str.Char.Slot2.Name);
+			i = i.Replace("{slot3}", str.Char.Slot3.Name);
+			i = i.Replace("{inven1}", str.Char.Inven.Items[0].Name);
+			i = i.Replace("{inven2}", str.Char.Inven.Items[1].Name);
+			i = i.Replace("{inven3}", str.Char.Inven.Items[2].Name);
+			i = i.Replace("{inven4}", str.Char.Inven.Items[3].Name);
+			i = i.Replace("{inven5}", str.Char.Inven.Items[4].Name);
+			i = i.Replace("{inven6}", str.Char.Inven.Items[5].Name);
+			i = i.Replace("{inven7}", str.Char.Inven.Items[6].Name);
+			i = i.Replace("{inven8}", str.Char.Inven.Items[7].Name);
+			i = i.Replace("{inven9}", str.Char.Inven.Items[8].Name);
+			i = i.Replace("{inven10}", str.Char.Inven.Items[9].Name);
 
-			if(it != null)
+			if (str.Char.TemporaryItem != 0)
 			{
-				i = i.Replace("{item}", it.Name);
+				i = i.Replace("{item}", ItemCon.GetById(str.Char.TemporaryItem).Name);
 			}
 
 			//i = i.Replace("{Skeleton Warrior}", EnemCon.GetByName("Skeleton Warrior").Name);
@@ -269,14 +427,22 @@ namespace Herotale
 
 			if (!String.IsNullOrEmpty(In.Message))
 			{
-				if (In.Message.Contains("pick up") || In.Message.Contains("look at"))
+				if (In.Message.Contains("pick up") || In.Message.Contains("look at") || In.Message.Contains("Pick Up") || In.Message.Contains("Pick up") || In.Message.Contains("Look At"))
 				{
-					int index = In.Message.IndexOf(' ');
-					index = In.Message.IndexOf(' ', index + 1);
-					In.Message = In.Message.Substring(0, index);
-					In.Message = In.Message.Replace(" ", string.Empty);
+					try
+					{
+						int index = In.Message.IndexOf(' ');
+						index = In.Message.IndexOf(' ', index + 1);
+						In.Message = In.Message.Substring(0, index);
+						In.Message = In.Message.Replace(" ", string.Empty);
 
-					In.Message = char.ToUpper(In.Message[0]) + In.Message.Substring(1);
+						In.Message = char.ToUpper(In.Message[0]) + In.Message.Substring(1);
+					}
+					catch
+					{
+						return 0;
+					}
+
 				}
 				else if (In.Message.Contains("statistics") || In.Message.Contains("Statistics"))
 				{
@@ -284,6 +450,10 @@ namespace Herotale
 				}
 				else
 				{
+					if (In.Message.Contains("Equip") || In.Message.Contains("Dequip") || In.Message.Contains("equip") || In.Message.Contains("dequip"))
+					{
+						WhatItem = Convert.ToInt32(In.Message.Split(' ').Last());
+					}
 					In.Message = In.Message.Split(' ').FirstOrDefault();
 					In.Message = char.ToUpper(In.Message[0]) + In.Message.Substring(1);
 				}

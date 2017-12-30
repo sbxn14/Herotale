@@ -10,5 +10,6 @@ namespace Herotale.Models
     {
         public string Message { get; set; }
         public Character Char { get; set; }
+		public string Title { get; set; }
     }
 }

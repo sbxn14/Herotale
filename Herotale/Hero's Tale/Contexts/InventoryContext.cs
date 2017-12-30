@@ -30,5 +30,16 @@ namespace Herotale.Contexts
 		{
 			return Rep.GetAll();
 		}
-    }
+
+		public Story AddItem(Item i, Story Str)
+		{
+			return Rep.AddItem(i, Str);
+		}
+
+		public Character Dequip(Item i, Character Char)
+		{
+			return Rep.Dequip(i, Char);
+		}
+
+	}
 }

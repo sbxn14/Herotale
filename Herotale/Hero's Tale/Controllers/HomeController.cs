@@ -17,15 +17,16 @@ namespace Herotale.Controllers
 		public ActionResult Index()
 		{
 			Logic log = new Logic();
-
 			Input inp = new Input
 			{
 				Message = "",
 				Char = Session["Char"] as Character
 			};
+			StoryViewModel mod = log.Hub(inp);
+			Session["Title"] = mod.Str.Sgt.Title;
 
 			ModelState.Clear();
-			return View("Index", log.Hub(inp));
+			return View("Index", mod);
 		}
 
 		[ValidateAntiForgeryToken]
@@ -37,13 +38,16 @@ namespace Herotale.Controllers
 				Input command = new Input
 				{
 					Message = mod.Inp.Message,
-					Char = Session["Char"] as Character
-			};
-				
+					Char = Session["Char"] as Character,
+					Title = Session["Title"] as string
+
+				};
+
 				Logic log = new Logic();
 				StoryViewModel str = log.Hub(command);
 				str.Inp.Message = string.Empty;
 				Session["Char"] = str.Str.Char;
+				Session["Title"] = str.Str.Sgt.Title;
 				ModelState.Clear();
 
 				return View(str);

@@ -224,5 +224,66 @@ namespace Herotale.MSSQL_Repositories
 		{
 			throw new NotImplementedException();
 		}
+
+		public Character EquipItem(int Whatitem, Character Cha)
+		{
+			ItemContext ItemCon = new ItemContext(new MssqlItemRep());
+			Item i = Cha.Inven.Items[Whatitem - 1];
+			int id = 0;
+			Item Empty = ItemCon.GetEmptyItem();
+
+			if (Cha.Slot1.Id != 25)
+			{
+				id = 1;
+
+				Cha.Inven.Items[Whatitem - 1] = Empty;
+				Cha = new Character(Cha, i, id);
+			}
+			else if (Cha.Slot2.Id != 25)
+			{
+				id = 2;
+
+				Cha.Inven.Items[Whatitem - 1] = Empty;
+				Cha = new Character(Cha, i, id);
+			}
+			else if (Cha.Slot3.Id != 25)
+			{
+				id = 3;
+
+				Cha.Inven.Items[Whatitem - 1] = Empty;
+				Cha = new Character(Cha, i, id);
+			}
+			else
+			{
+
+			}
+			return Cha;
+		}
+
+		public Character DequipItem(int WhatSlot, Character Cha)
+		{
+			ItemContext ItemCon = new ItemContext(new MssqlItemRep());
+			InventoryContext InvenCon = new InventoryContext(new MssqlInventoryRep());
+			Item i = new Item();
+			Item Empty = ItemCon.GetEmptyItem();
+
+			if (WhatSlot == 1)
+			{
+				i = Cha.Slot1;
+
+			}
+			else if (WhatSlot == 2)
+			{
+				i = Cha.Slot2;
+			}
+			else if (WhatSlot == 3)
+			{
+				i = Cha.Slot3;
+			}
+			Cha = new Character(Cha, Empty, WhatSlot);
+			Cha = InvenCon.Dequip(i, Cha);
+
+			return Cha;
+		}
 	}
 }
