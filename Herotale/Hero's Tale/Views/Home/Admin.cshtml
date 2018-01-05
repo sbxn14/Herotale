@@ -1,0 +1,41 @@
+﻿@using Herotale.Models
+@model Herotale.ViewModels.AccountViewModel
+<!DOCTYPE html>
+<div class="buttons">
+	<a href="/Home/Logout" class="logout">Logout</a>
+</div>
+@Styles.Render("~/Content/Site.css")
+<h2>Account List</h2>
+<table id="myTable" style="width: 100%">
+	<thead>
+		<tr>
+			<th style="width: 20%; text-align:center; font-size: 30px;">Id</th>
+			<th style="width: 20%; text-align:center; font-size: 30px;">Email</th>
+			<th style="width: 20%; text-align:center; font-size: 30px;">Admin</th>
+			<th style="width: 20%; text-align:center;"> </th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (Account acc in Model.AccList)
+		{
+			<tr>
+				<td style="width: 20%;">
+					@Html.DisplayFor(modelItem => acc.Id)
+				</td>
+				<td style="width: 20%;">
+					@Html.DisplayFor(modelItem => acc.Email)
+				</td>
+				<td style="width: 20%;">
+					@Html.DisplayTextFor(modelItem => acc.Rights)
+				</td>
+				<td style="width: 20%;">
+					@using (Html.BeginForm("Admin", "Home", FormMethod.Post))
+					{
+						@Html.AntiForgeryToken()
+						@Html.ActionLink("Delete", "Admin", new { id = acc.Id }, null)
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

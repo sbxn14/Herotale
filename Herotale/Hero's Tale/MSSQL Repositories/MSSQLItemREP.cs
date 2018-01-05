@@ -152,7 +152,7 @@ namespace Herotale.MSSQL_Repositories
 			Item i = list[r.Next(0, list.Count)];
 			if(i.Id == 25)
 			{
-				GetRandomItem();
+				i = list[r.Next(0, list.Count)];
 			}
 			return i;
 		}

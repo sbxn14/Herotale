@@ -7,9 +7,9 @@ namespace Herotale.IRepositories
     {
         Inventory Get(int id);
 		List<Inventory> GetAll();
-		bool Update(Character Obj);
+		new bool Update(Inventory Obj);
 		Story AddItem(Item i, Story Str);
-		Character Dequip(Item i, Character Char);
+		Character Unequip(Item i, Character Char);
 
 	}
 }

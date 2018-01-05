@@ -69,23 +69,23 @@ namespace Herotale.MSSQL_Repositories
 			return null;
 		}
 
-		public bool Update(Character Obj)
+		public bool Update(Inventory Obj)
 		{
 			string query = "UPDATE dbo.Inventory SET item1id = @Slot1id, item2id = @Slot2id, item3id = @Slot3id, item4id = @Slot4id, item5id = @Slot5id, item6id = @Slot6id, item7id = @Slot7id, item8id = @Slot8id, item9id = @Slot9id, item10id = @Slot10id WHERE id = @id";
 
 			SqlCommand com = new SqlCommand(query);
 
-			com.Parameters.AddWithValue("id", Obj.Inven.Id);
-			com.Parameters.AddWithValue("@Slot1id", Obj.Inven.Items[0].Id);
-			com.Parameters.AddWithValue("@Slot2id", Obj.Inven.Items[1].Id);
-			com.Parameters.AddWithValue("@Slot3id", Obj.Inven.Items[2].Id);
-			com.Parameters.AddWithValue("@Slot4id", Obj.Inven.Items[3].Id);
-			com.Parameters.AddWithValue("@Slot5id", Obj.Inven.Items[4].Id);
-			com.Parameters.AddWithValue("@Slot6id", Obj.Inven.Items[5].Id);
-			com.Parameters.AddWithValue("@Slot7id", Obj.Inven.Items[6].Id);
-			com.Parameters.AddWithValue("@Slot8id", Obj.Inven.Items[7].Id);
-			com.Parameters.AddWithValue("@Slot9id", Obj.Inven.Items[8].Id);
-			com.Parameters.AddWithValue("@Slot10id", Obj.Inven.Items[9].Id);
+			com.Parameters.AddWithValue("id", Obj.Id);
+			com.Parameters.AddWithValue("@Slot1id", Obj.Items[0].Id);
+			com.Parameters.AddWithValue("@Slot2id", Obj.Items[1].Id);
+			com.Parameters.AddWithValue("@Slot3id", Obj.Items[2].Id);
+			com.Parameters.AddWithValue("@Slot4id", Obj.Items[3].Id);
+			com.Parameters.AddWithValue("@Slot5id", Obj.Items[4].Id);
+			com.Parameters.AddWithValue("@Slot6id", Obj.Items[5].Id);
+			com.Parameters.AddWithValue("@Slot7id", Obj.Items[6].Id);
+			com.Parameters.AddWithValue("@Slot8id", Obj.Items[7].Id);
+			com.Parameters.AddWithValue("@Slot9id", Obj.Items[8].Id);
+			com.Parameters.AddWithValue("@Slot10id", Obj.Items[9].Id);
 
 			return DB.RunNonQuery(com);
 		}
@@ -182,45 +182,39 @@ namespace Herotale.MSSQL_Repositories
 
 		public Story AddItem(Item i, Story Str)
 		{
+			Inventory inv = Str.Char.Inven;
 			for (int a = 0; a < Str.Char.Inven.Items.Count(); a++)
 			{
-				if (Str.Char.Inven.Items[a].Id == 25)// empty slot
+				if (inv.Items[a].Id == 25)// empty slot
 				{
-					Str.Char.Inven.Items[a] = i;
+					inv.Items[a] = i;
 
 					break; //put new item in the first empty slot and then break the loop.
 				}
 			}
 			
-			
+			Update(inv);
 
-			Update(Str.Char);
-
+			Str.Char = new Character(Str.Char, inv);
 			return Str;
 		}
 
-		public Character Dequip(Item i, Character Char)
+		public Character Unequip(Item i, Character Char)
 		{
+			Inventory Inv = Char.Inven;
 			for (int a = 0; a < Char.Inven.Items.Count(); a++)
 			{
 				if (Char.Inven.Items[a].Id == 25)// empty slot
 				{
-					Char.Inven.Items[a] = i;
+					Inv.Items[a] = i;
 
 					break; //put new item in the first empty slot and then break the loop.
 				}
 			}
+			Char = new Character(Char, Inv);
+			Update(Inv);
 
-
-
-			Update(Str.Char);
-
-			return Str;
-		}
-
-		public bool Update(Inventory obj)
-		{
-			throw new System.NotImplementedException();
+			return Char;
 		}
 	}
 }

@@ -11,6 +11,6 @@ namespace Herotale.IRepositories
 		bool CheckAcc(Account acc);
 		bool Insert(CharacterViewModel obj);
 		Character EquipItem(int WhatItem, Character Cha);
-		Character DequipItem(int WhatSlot, Character Cha);
+		Character UnequipItem(int WhatSlot, Character Cha);
 	}
 }

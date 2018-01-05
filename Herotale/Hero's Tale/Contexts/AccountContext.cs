@@ -36,5 +36,10 @@ namespace Herotale.Contexts
 		{
 			return Rep.GetAll();
 		}
+
+		public bool Remove(Account obj)
+		{
+			return Rep.Remove(obj);
+		}
     }
 }

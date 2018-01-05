@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Herotale</title>
+	@Styles.Render("~/Content/LoginRegister.css")
+</head>
+<body>
+	<div class="center">
+		<h1 style="text-align:center;">Are you sure you want to reset your account?</h1>
+		<h3 style="text-align:center;">You will be logged out either way.</h3>
+		<div class="center">
+			@using (Html.BeginForm("Reset", "Home"))
+			{
+				@Html.AntiForgeryToken()
+				<input name="yes" type="submit" class="confirm" value="Yes" />
+				<input name="no" type="submit" class="confirm" value="No" />
+			}
+
+		</div>
+	</div>
+</body>
+</html>

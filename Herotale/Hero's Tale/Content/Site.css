@@ -108,3 +108,10 @@ a, a:active, a:link, a:visited {
     font-family: 'fixedsys_excelsior_3.01Rg';
     border: 1.1px solid #262626;
 }
+
+table, td, th {
+	border-collapse: collapse;
+	border: 1px solid yellow;
+	line-height:50px;
+	text-align: center;
+}

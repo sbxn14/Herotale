@@ -75,16 +75,36 @@ namespace Herotale.Models
 			MaxHealth = Health;
 		}
 
-		public Character(Character c, int health) //for combat damage
+		//public Character(Character c, int health) //for combat damage
+		//{
+		//	Id = c.Id;
+		//	Name = c.Name;
+		//	Gender = c.Gender;
+		//	Health = health;
+		//	MaxHealth = c.MaxHealth;
+		//	AttackPower = c.AttackPower;
+		//	Defense = c.Defense;
+		//	Speed = c.Speed;
+		//	Cp = c.Cp;
+		//	Cl = c.Cl;
+		//	Rc = c.Rc;
+		//	Inven = c.Inven;
+		//	Acc = c.Acc;
+		//	Slot1 = c.Slot1;
+		//	Slot2 = c.Slot2;
+		//	Slot3 = c.Slot3;
+		//}
+
+		public Character(Character c, int AP, int DEF, int SPD)
 		{
 			Id = c.Id;
 			Name = c.Name;
 			Gender = c.Gender;
-			Health = health;
+			Health = c.Health;
 			MaxHealth = c.MaxHealth;
-			AttackPower = c.AttackPower;
-			Defense = c.Defense;
-			Speed = c.Speed;
+			AttackPower = AP;
+			Defense = DEF;
+			Speed = SPD;
 			Cp = c.Cp;
 			Cl = c.Cl;
 			Rc = c.Rc;
@@ -94,6 +114,7 @@ namespace Herotale.Models
 			Slot2 = c.Slot2;
 			Slot3 = c.Slot3;
 		}
+
 		public Character(Checkpoint CPP, Character c)
 		{
 			Cp = CPP;
@@ -114,7 +135,65 @@ namespace Herotale.Models
 			Slot3 = c.Slot3;
 		}
 
-		public Character(Character c, Item i, int id) //for equipping/dequipping
+		public Character(Character c, Inventory Inv)
+		{
+			Cp = c.Cp;
+			Id = c.Id;
+			Name = c.Name;
+			Gender = c.Gender;
+			Health = c.Health;
+			MaxHealth = c.MaxHealth;
+			AttackPower = c.AttackPower;
+			Defense = c.Defense;
+			Speed = c.Speed;
+			Cl = c.Cl;
+			Rc = c.Rc;
+			Inven = Inv;
+			Acc = c.Acc;
+			Slot1 = c.Slot1;
+			Slot2 = c.Slot2;
+			Slot3 = c.Slot3;
+		}
+
+		public Character(Character c, Item i, int id, Inventory Inv) //for equipping/Unequipping
+		{
+			Cp = c.Cp;
+			Id = c.Id;
+			Name = c.Name;
+			Gender = c.Gender;
+			Health = c.Health;
+			MaxHealth = c.MaxHealth;
+			AttackPower = c.AttackPower;
+			Defense = c.Defense;
+			Speed = c.Speed;
+			Cl = c.Cl;
+			Rc = c.Rc;
+			Inven = Inv;
+			Acc = c.Acc;
+			Slot1 = i;
+			Slot2 = c.Slot2;
+			Slot3 = c.Slot3;
+
+			if (id == 1)
+			{
+				Slot1 = i;
+			}
+			else if (id == 2)
+			{
+				Slot2 = i;
+			}
+			else if (id == 3)
+			{
+				Slot3 = i;
+			}
+			else
+			{
+				Slot1 = c.Slot1;
+				Slot2 = c.Slot2;
+				Slot3 = c.Slot3;
+			}
+		}
+		public Character(Character c, Item i, int id) //for equipping/unequipping
 		{
 			Cp = c.Cp;
 			Id = c.Id;

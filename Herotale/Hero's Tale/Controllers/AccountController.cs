@@ -98,7 +98,7 @@ namespace Herotale.Controllers
 					auth = AccCon.LoginAccount(a);
 					id = AccCon.LoginId(a);
 					a.Id = Convert.ToInt32(id);
-
+					a.Rights = AccCon.GetById(a.Id).Rights;
 				}
 				if (auth == false)
 				{
@@ -110,6 +110,11 @@ namespace Herotale.Controllers
 				{
 					HttpCookie c = ticket.Encrypt(id);
 					HttpContext.Response.Cookies.Add(c);
+
+					if(a.Rights)
+					{
+						return RedirectToAction("Admin", "Home");
+					}
 
 					bool HasCharacter = CharCon.CheckForCharacter(a);
 					if (HasCharacter)

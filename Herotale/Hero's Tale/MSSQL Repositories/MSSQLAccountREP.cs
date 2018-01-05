@@ -79,11 +79,6 @@ namespace Herotale.MSSQL_Repositories
             cmd.Parameters.AddWithValue("@password", acc.Password);
             reader = cmd.ExecuteReader();
 
-            if (CheckAdmin(acc))
-            {
-                //log in as admin
-            }
-
             if (reader != null && reader.HasRows)
             {
                 return true;
@@ -116,24 +111,7 @@ namespace Herotale.MSSQL_Repositories
             }
             return null;
         }
-
-        public bool CheckAdmin(Account acc)
-        {
-            SqlDataReader reader = null;
-            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Accounts WHERE emailaddress=@email AND password=@password AND rights=1", conn);
-            cmd.Parameters.AddWithValue("@email", acc.Email);
-            cmd.Parameters.AddWithValue("@password", acc.Password);
-            reader = cmd.ExecuteReader();
-
-            if (reader != null && reader.HasRows)
-            {
-                return true;
-            }
-            return false;
-        }
-
+		
 		public Account Get(int id)
 		{
 			SqlDataReader reader = null;
@@ -195,8 +173,13 @@ namespace Herotale.MSSQL_Repositories
 
         public bool Remove(Account obj)
         {
-            throw new NotImplementedException();
-        }
+			string query = "DELETE FROM dbo.Accounts WHERE id=@id";
+			SqlCommand cmd = new SqlCommand(query);
+
+			cmd.Parameters.AddWithValue("@id", obj.Id);
+
+			return DB.RunNonQuery(cmd);
+		}
 
         public bool Update()
         {

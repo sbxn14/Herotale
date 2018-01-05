@@ -36,14 +36,19 @@ namespace Herotale.MSSQL_Repositories
 			com.Parameters.AddWithValue("@Slot1id", Emp.Id);
 			com.Parameters.AddWithValue("@Slot2id", Emp.Id);
 			com.Parameters.AddWithValue("@Slot3id", Emp.Id);
-			com.Parameters.AddWithValue("@Cpid", 7); //Checkpoint = 7. means beginning.
+			com.Parameters.AddWithValue("@Cpid", 3); //Checkpoint = 3. which is the welcome screen
 
 			return DB.RunNonQuery(com);
 		}
 
 		public bool Remove(Character obj)
 		{
-			throw new System.NotImplementedException();
+			string query = "DELETE FROM dbo.Characters WHERE id=@id";
+			SqlCommand cmd = new SqlCommand(query);
+
+			cmd.Parameters.AddWithValue("@id", obj.Id);
+			
+			return DB.RunNonQuery(cmd);
 		}
 
 		public Character Get(Account acc)
@@ -140,7 +145,6 @@ namespace Herotale.MSSQL_Repositories
 			Item it = iCon.GetEmptyItem();
 			InCon.Insert(i);
 			List<Inventory> InvenList = InCon.GetAll();
-			List<Account> AccList = acccon.GetAll();
 			List<Checkpoint> CpList = cpcon.GetAll();
 
 			Race r = RcCon.GetById(Chaa.Rc.Id);
@@ -228,39 +232,54 @@ namespace Herotale.MSSQL_Repositories
 		public Character EquipItem(int Whatitem, Character Cha)
 		{
 			ItemContext ItemCon = new ItemContext(new MssqlItemRep());
+			InventoryContext InvCon = new InventoryContext(new MssqlInventoryRep());
 			Item i = Cha.Inven.Items[Whatitem - 1];
 			int id = 0;
 			Item Empty = ItemCon.GetEmptyItem();
 
-			if (Cha.Slot1.Id != 25)
+			if (i != Empty)
 			{
-				id = 1;
+				if (Cha.Slot1.Id == 25)
+				{
+					id = 1;
 
-				Cha.Inven.Items[Whatitem - 1] = Empty;
-				Cha = new Character(Cha, i, id);
-			}
-			else if (Cha.Slot2.Id != 25)
-			{
-				id = 2;
+					Inventory Inv = Cha.Inven;
+					Inv.Items[Whatitem - 1] = Empty;
+					Cha = new Character(Cha, i, id, Inv);
+				}
+				else if (Cha.Slot2.Id == 25)
+				{
+					id = 2;
 
-				Cha.Inven.Items[Whatitem - 1] = Empty;
-				Cha = new Character(Cha, i, id);
-			}
-			else if (Cha.Slot3.Id != 25)
-			{
-				id = 3;
+					Inventory Inv = Cha.Inven;
+					Inv.Items[Whatitem - 1] = Empty;
+					Cha = new Character(Cha, i, id, Inv);
+				}
+				else if (Cha.Slot3.Id == 25)
+				{
+					id = 3;
 
-				Cha.Inven.Items[Whatitem - 1] = Empty;
-				Cha = new Character(Cha, i, id);
-			}
-			else
-			{
+					Inventory Inv = Cha.Inven;
+					Inv.Items[Whatitem - 1] = Empty;
+					Cha = new Character(Cha, i, id, Inv);
+				}
+				else
+				{
 
+				}
 			}
+
+			int newAP = Cha.AttackPower + i.AttackBonus;
+			int newDEF = Cha.Defense + i.DefenseBonus;
+			int newSPD = Cha.Speed + i.SpeedBonus;
+			Cha = new Character(Cha, newAP, newDEF, newSPD);
+
+			Update(Cha);
+			InvCon.Update(Cha.Inven);
 			return Cha;
 		}
 
-		public Character DequipItem(int WhatSlot, Character Cha)
+		public Character UnequipItem(int WhatSlot, Character Cha)
 		{
 			ItemContext ItemCon = new ItemContext(new MssqlItemRep());
 			InventoryContext InvenCon = new InventoryContext(new MssqlInventoryRep());
@@ -281,7 +300,15 @@ namespace Herotale.MSSQL_Repositories
 				i = Cha.Slot3;
 			}
 			Cha = new Character(Cha, Empty, WhatSlot);
-			Cha = InvenCon.Dequip(i, Cha);
+			Cha = InvenCon.Unequip(i, Cha);
+
+			int newAP = Cha.AttackPower - i.AttackBonus;
+			int newDEF = Cha.Defense - i.DefenseBonus;
+			int newSPD = Cha.Speed - i.SpeedBonus;
+			Cha = new Character(Cha, newAP, newDEF, newSPD);
+
+			Update(Cha);
+			InvenCon.Update(Cha.Inven);
 
 			return Cha;
 		}

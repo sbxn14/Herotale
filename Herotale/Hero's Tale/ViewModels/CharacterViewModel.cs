@@ -1,4 +1,5 @@
 ﻿using Herotale.Models;
+using System.ComponentModel;
 
 namespace Herotale.ViewModels
 {
@@ -13,7 +14,9 @@ namespace Herotale.ViewModels
 		public int Defense { get; set; }
 		public int Speed { get; set; }
 		public Checkpoint Cp { get; set; }
+		[DisplayName("Class")]
 		public Class Cl { get; set; }
+		[DisplayName("Race")]
 		public Race Rc { get; set; }
 		public Inventory Inven { get; set; }
 		public Account Acc { get; set; }

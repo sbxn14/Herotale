@@ -36,10 +36,14 @@ namespace Herotale.Contexts
 			return Rep.AddItem(i, Str);
 		}
 
-		public Character Dequip(Item i, Character Char)
+		public Character Unequip(Item i, Character Char)
 		{
-			return Rep.Dequip(i, Char);
+			return Rep.Unequip(i, Char);
 		}
 
+		public bool Update(Inventory obj)
+		{
+			return Rep.Update(obj);
+		}
 	}
 }

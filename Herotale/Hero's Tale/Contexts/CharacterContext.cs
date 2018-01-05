@@ -43,10 +43,14 @@ namespace Herotale.Contexts
 			return Rep.EquipItem(Whatitem, Cha);
 		}
 
-		public Character DequipItem(int WhatSlot, Character Cha)
+		public Character UnequipItem(int WhatSlot, Character Cha)
 		{
-			return Rep.DequipItem(WhatSlot, Cha);
+			return Rep.UnequipItem(WhatSlot, Cha);
 		}
 
+		public bool Remove(Character obj)
+		{
+			return Rep.Remove(obj);
+		}
 	}
 }
