@@ -152,5 +152,11 @@ namespace Herotale.Controllers
 			viewModel.AccList = AccCon.GetAll();
 			return View(viewModel);
 		}
+
+		[AllowAnonymous]
+		public ActionResult Api()
+		{
+			return View();
+		}
 	}
 }
