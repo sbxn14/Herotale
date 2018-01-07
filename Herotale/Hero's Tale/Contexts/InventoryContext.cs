@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Herotale.IRepositories;
+﻿using Herotale.IRepositories;
 using Herotale.Models;
+using System.Collections.Generic;
 
 namespace Herotale.Contexts
 {
-    public class InventoryContext
+	public class InventoryContext
     {
         readonly IInventoryRepository Rep;
 

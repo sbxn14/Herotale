@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Geolocation</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	@Styles.Render("~/Content/Site.css")
+	@Scripts.Render("~/Scripts/MapsApi.js")
+	<style>
+		* {
+			color:  black;
+		}
+		#map {
+			height: 50%;
+			width: 50%;
+			margin: auto;
+		}
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPWbuwtgTHSBWU6hZxcNVV-9LbxahhMDg&callback=initMap">
+	</script>
+</body>
+</html>
